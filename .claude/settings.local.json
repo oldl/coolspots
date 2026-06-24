@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Bash(python3 -m http.server 8723)",
+      "Bash(curl -s localhost:8723/coolspots-data-v2.1.json)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" localhost:8723/index.html)",
+      "mcp__Claude_in_Chrome__navigate",
+      "mcp__Claude_in_Chrome__get_page_text",
+      "mcp__Claude_in_Chrome__computer",
+      "Bash(kill %1)",
+      "Bash(jobs)",
+      "Bash(grep -n \"HISTORIQUE DES PICS\\\\|</svg>\\\\s*$\\\\|grid-column:1 / -1\" /Users/olivier/Documents/projects/mini-apps/coolspots/index.html)",
+      "mcp__Claude_in_Chrome__javascript_tool",
+      "Bash(pkill -f \"http.server 8723\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('coolspots-data-v2.1.json'\\)\\)\")"
+    ]
+  }
+}

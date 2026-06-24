@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coolspots Desktop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .scrl::-webkit-scrollbar { width: 7px; }
+  .scrl::-webkit-scrollbar-thumb { background: #23272f; border-radius: 4px; }
+  .scrl::-webkit-scrollbar-track { background: transparent; }
+</style>
+</head>
+<body>
+<div style="min-height:100vh; box-sizing:border-box; padding:38px 42px; background:#070809; background-image:radial-gradient(1000px 540px at 50% 122%, rgba(232,51,42,.16), transparent 68%); font-family:'JetBrains Mono',monospace; color:#e6e9ee;">
+
+  <div style="max-width:1360px; margin:0 auto;">
+
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:22px;">
+      <div style="display:flex; flex-direction:column; gap:7px;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:27px; letter-spacing:-0.01em; line-height:1; color:#f1f3f6;">COOL<span style="color:#ff6a2b;">SPOTS</span></div>
+        <div style="font-size:10.5px; letter-spacing:0.2em; color:#5f6772;">CANICULE&nbsp;//&nbsp;TABLEAU DE BORD THERMIQUE&nbsp;//&nbsp;BRUXELLES</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="display:flex; align-items:center; gap:8px; border:1px solid #23272f; border-radius:7px; padding:7px 8px 7px 12px;">
+          <span style="width:6px; height:6px; border-radius:50%; background:#36d6c8; box-shadow:0 0 8px #36d6c8; flex:none;"></span>
+          <select id="communeFilter" style="appearance:none; background:transparent; border:none; outline:none; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; color:#aeb6c2; padding-right:4px;">
+            <option value="">TOUTES COMMUNES</option>
+          </select>
+          <span style="font-size:11px; color:#5f6772;">▾</span>
+        </div>
+        <div style="border:1px solid #23272f; border-radius:7px; padding:9px 12px; font-size:11px; letter-spacing:0.08em; color:#8b93a0;">21 JUIN&nbsp;·&nbsp;14:30</div>
+        <div style="display:flex; align-items:center; gap:9px; background:linear-gradient(100deg,#ff6a2b,#e2382e); border-radius:7px; padding:9px 13px;">
+          <span style="width:7px; height:7px; border-radius:50%; background:#fff; box-shadow:0 0 8px rgba(255,255,255,.8);"></span>
+          <span style="font-size:11px; font-weight:700; letter-spacing:0.1em; color:#fff;">VIGILANCE ORANGE · NIVEAU 3/4</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:360px 1fr; gap:16px; align-items:start;">
+
+      <div style="display:flex; flex-direction:column; gap:16px;">
+
+        <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:20px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <span style="font-size:10px; letter-spacing:0.18em; color:#6c7480;">TEMPÉRATURE AMBIANTE</span>
+            <span style="font-size:10px; letter-spacing:0.12em; color:#ff7a3c;">▲ +4° / 1H</span>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:4px;">
+            <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:82px; line-height:0.82; letter-spacing:-0.04em; color:#f5f7fa;">36</div>
+            <div style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:26px; color:#ff6a2b; margin-top:4px;">°C</div>
+          </div>
+          <div style="position:relative; height:9px; border-radius:5px; margin:18px 0 6px; background:linear-gradient(90deg,#2a86ef,#36d6c8,#ffe14d,#ff7a1a,#e2382e);">
+            <div style="position:absolute; top:-4px; bottom:-4px; left:78%; width:3px; border-radius:2px; background:#fff; box-shadow:0 0 8px rgba(255,255,255,.7);"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#5f6772; letter-spacing:0.08em;"><span>15°</span><span>30°</span><span>45°</span></div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:18px; background:#1d2128; border:1px solid #1d2128; border-radius:9px; overflow:hidden;">
+            <div style="background:#0e1014; padding:12px 13px;"><div style="font-size:9px; letter-spacing:0.14em; color:#6c7480;">RESSENTI</div><div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; color:#ff8a4c; margin-top:3px;">39°C</div></div>
+            <div style="background:#0e1014; padding:12px 13px;"><div style="font-size:9px; letter-spacing:0.14em; color:#6c7480;">INDICE UV</div><div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; color:#ffd84d; margin-top:3px;">8<span style="font-size:11px; color:#6c7480;"> /11</span></div></div>
+            <div style="background:#0e1014; padding:12px 13px;"><div style="font-size:9px; letter-spacing:0.14em; color:#6c7480;">HUMIDITÉ</div><div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; color:#e6e9ee; margin-top:3px;">28<span style="font-size:11px; color:#6c7480;"> %</span></div></div>
+            <div style="background:#0e1014; padding:12px 13px;"><div style="font-size:9px; letter-spacing:0.14em; color:#6c7480;">VENT</div><div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; color:#e6e9ee; margin-top:3px;">6<span style="font-size:11px; color:#6c7480;"> km/h</span></div></div>
+          </div>
+
+          <div style="margin-top:16px;">
+            <div style="display:flex; justify-content:space-between; font-size:9px; letter-spacing:0.12em; color:#6c7480; margin-bottom:7px;"><span>NIVEAU D'ALERTE</span><span style="color:#ff8a4c;">3 / 4</span></div>
+            <div style="display:flex; gap:4px;">
+              <div style="flex:1; height:6px; border-radius:3px; background:#ffe14d;"></div>
+              <div style="flex:1; height:6px; border-radius:3px; background:#ff9e1b;"></div>
+              <div style="flex:1; height:6px; border-radius:3px; background:#e2382e; box-shadow:0 0 10px rgba(226,56,46,.6);"></div>
+              <div style="flex:1; height:6px; border-radius:3px; background:#23272f;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="position:relative; background:#0c1316; border:1px solid #16413c; border-radius:12px; padding:18px; overflow:hidden;">
+          <div style="position:absolute; inset:0; background:radial-gradient(220px 130px at 12% 0%, rgba(54,214,200,.16), transparent 70%);"></div>
+          <div style="position:relative;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:13px;">
+              <span style="font-size:10px; letter-spacing:0.16em; color:#5fb8b0;">❄ MEILLEUR REFUGE</span>
+              <span style="font-size:10px; letter-spacing:0.1em; color:#5f6772;">5 MIN À PIED</span>
+            </div>
+            <div id="bestRefuge" style="display:flex; align-items:flex-end; justify-content:space-between; gap:10px;">
+              <div>
+                <div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:17px; color:#eafffb;">…</div>
+                <div style="font-size:10.5px; color:#7d8a87; margin-top:3px;">…</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:34px; line-height:0.85; color:#36d6c8;">…</div>
+                <div style="font-size:11px; font-weight:600; color:#36d6c8; margin-top:2px;">…</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="position:relative; background:linear-gradient(135deg,#e2382e,#9c1410); border-radius:12px; padding:18px; overflow:hidden;">
+          <div style="position:absolute; right:-30px; top:-30px; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle, rgba(255,200,120,.45), transparent 65%);"></div>
+          <div style="position:relative; display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div style="font-size:10px; letter-spacing:0.16em; color:rgba(255,255,255,.78);">🔥 POINT LE PLUS CHAUD</div>
+              <div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:18px; color:#fff; margin-top:11px;">Gare du Midi</div>
+              <div style="font-size:10.5px; color:rgba(255,255,255,.8); margin-top:3px;">Place minérale · à éviter</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:46px; line-height:0.82; color:#fff;">41°</div>
+              <div style="font-size:11px; font-weight:600; color:rgba(255,255,255,.92); margin-top:3px;">+5° vs ambiant</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:16px;">
+
+        <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:20px 22px;">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:4px;">
+            <span style="font-size:11px; letter-spacing:0.16em; color:#aeb6c2;">GAIN DE TEMPÉRATURE PAR SPOT</span>
+            <span style="font-size:10px; letter-spacing:0.1em; color:#5f6772; white-space:nowrap;">Δ°C vs AMBIANT 36°</span>
+          </div>
+          <div id="spotBarsCaption" style="font-size:10px; color:#5f6772; margin-bottom:18px;">… spots relevés · données coolspots-data-v2.1 · maj …</div>
+
+          <div id="spotBarsList" style="display:flex; flex-direction:column; gap:9px;"></div>
+
+          <div style="display:flex; align-items:center; gap:14px; margin-top:16px; padding-top:14px; border-top:1px solid #1d2128;">
+            <div style="width:172px; flex:none;"></div>
+            <div style="flex:1; position:relative;">
+              <div style="height:6px; border-radius:3px; background:linear-gradient(90deg,#1f6feb,#36d6c8,#ffe14d,#ff7a1a,#e2382e);"></div>
+              <div style="position:absolute; left:78%; top:-3px; bottom:-3px; width:1px; background:#aeb6c2;"></div>
+              <div style="position:relative; margin-top:6px; height:12px; font-size:9px; letter-spacing:0.1em; color:#5f6772;">
+                <span style="position:absolute; left:0; color:#36d6c8;">PLUS FRAIS</span>
+                <span style="position:absolute; left:78%; transform:translateX(-50%); color:#8b93a0;">AMBIANT 36°</span>
+                <span style="position:absolute; right:0; color:#ff6a2b;">PLUS CHAUD</span>
+              </div>
+            </div>
+            <div style="width:96px; flex:none;"></div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:16px; align-items:start;">
+
+          <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:18px 18px 14px;">
+            <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:6px;">
+              <span style="font-size:11px; letter-spacing:0.16em; color:#aeb6c2;">COURBE DU JOUR</span>
+              <span style="font-size:9.5px; letter-spacing:0.08em; color:#5f6772;">°C / 24H</span>
+            </div>
+            <div style="display:flex; gap:16px; margin-bottom:8px;">
+              <span style="display:flex; align-items:center; gap:6px; font-size:9.5px; color:#8b93a0;"><span style="width:14px; height:2px; background:#e6e9ee;"></span>Réel</span>
+              <span style="display:flex; align-items:center; gap:6px; font-size:9.5px; color:#8b93a0;"><span style="width:14px; height:2px; background:#ff7a3c;"></span>Ressenti</span>
+            </div>
+            <svg viewBox="0 0 880 272" style="width:100%; height:auto; display:block;" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <linearGradient id="heatfill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#ff7a1a" stop-opacity="0.34"/>
+                  <stop offset="1" stop-color="#ff7a1a" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <line x1="40" y1="20" x2="860" y2="20" stroke="#16315c" stroke-width="1"/>
+              <line x1="40" y1="65.5" x2="860" y2="65.5" stroke="#11264a" stroke-width="1"/>
+              <line x1="40" y1="110.9" x2="860" y2="110.9" stroke="#11264a" stroke-width="1"/>
+              <line x1="40" y1="156.4" x2="860" y2="156.4" stroke="#11264a" stroke-width="1"/>
+              <line x1="40" y1="220" x2="860" y2="220" stroke="#16315c" stroke-width="1"/>
+              <line x1="40" y1="20" x2="40" y2="220" stroke="#11264a" stroke-width="1"/>
+              <line x1="142.5" y1="20" x2="142.5" y2="220" stroke="#11264a" stroke-width="1"/>
+              <line x1="245" y1="20" x2="245" y2="220" stroke="#11264a" stroke-width="1"/>
+              <line x1="347.5" y1="20" x2="347.5" y2="220" stroke="#11264a" stroke-width="1"/>
+              <line x1="450" y1="20" x2="450" y2="220" stroke="#11264a" stroke-width="1"/>
+              <line x1="552.5" y1="20" x2="552.5" y2="220" stroke="#11264a" stroke-width="1"/>
+              <line x1="655" y1="20" x2="655" y2="220" stroke="#11264a" stroke-width="1"/>
+              <line x1="757.5" y1="20" x2="757.5" y2="220" stroke="#11264a" stroke-width="1"/>
+              <line x1="860" y1="20" x2="860" y2="220" stroke="#11264a" stroke-width="1"/>
+              <text x="34" y="24" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">40</text>
+              <text x="34" y="160" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">25</text>
+              <text x="34" y="223" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">18</text>
+              <polygon points="40,147.3 142.5,174.5 245,183.6 347.5,120 450,56.4 552.5,29.1 655,47.3 757.5,101.8 860,138.2 860,220 40,220" fill="url(#heatfill)"/>
+              <polyline points="40,147.3 142.5,174.5 245,183.6 347.5,120 450,56.4 552.5,29.1 655,47.3 757.5,101.8 860,138.2" fill="none" stroke="#ff7a3c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+              <polyline points="40,165.5 142.5,183.6 245,192.7 347.5,138.2 450,83.6 552.5,56.4 655,74.5 757.5,120 860,147.3" fill="none" stroke="#e6e9ee" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+              <line x1="535.4" y1="14" x2="535.4" y2="226" stroke="#ffffff" stroke-width="1" stroke-dasharray="3 4" opacity="0.55"/>
+              <text x="535.4" y="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#aeb6c2" letter-spacing="1">MAINTENANT</text>
+              <circle cx="552.5" cy="56.4" r="9" fill="#ff7a1a" opacity="0.25"/>
+              <circle cx="552.5" cy="56.4" r="4.5" fill="#ffae5c" stroke="#0e1014" stroke-width="1.5"/>
+              <text x="40" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">00</text>
+              <text x="142.5" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">03</text>
+              <text x="245" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">06</text>
+              <text x="347.5" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">09</text>
+              <text x="450" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">12</text>
+              <text x="552.5" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#ff8a4c">15</text>
+              <text x="655" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">18</text>
+              <text x="757.5" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">21</text>
+              <text x="860" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">24</text>
+            </svg>
+          </div>
+
+          <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:18px 16px;">
+            <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px;">
+              <span style="font-size:11px; letter-spacing:0.16em; color:#aeb6c2;">RELEVÉ TEMPS RÉEL</span>
+              <span style="font-size:9.5px; letter-spacing:0.08em; color:#36d6c8;">● LIVE</span>
+            </div>
+
+            <div id="liveSpotsList" style="display:flex; flex-direction:column; gap:8px;"></div>
+
+            <div style="margin-top:14px; padding-top:13px; border-top:1px solid #1d2128; display:flex; align-items:center; justify-content:space-between;">
+              <span style="font-size:10px; letter-spacing:0.1em; color:#6c7480;">Besoin d'aide ? Coup de chaud</span>
+              <span style="font-size:10px; font-weight:600; letter-spacing:0.06em; color:#fff; background:#e2382e; border-radius:6px; padding:7px 11px;">CONSEILS</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div style="grid-column:1 / -1; background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:18px 18px 14px;">
+        <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:6px; flex-wrap:wrap; gap:10px;">
+          <span style="font-size:11px; letter-spacing:0.16em; color:#aeb6c2;">LISTE COMPLÈTE DES SPOTS</span>
+          <span id="fullListCount" style="font-size:9.5px; letter-spacing:0.08em; color:#5f6772;">…</span>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px; margin:14px 0 12px; flex-wrap:wrap;">
+          <div id="categoryFilter" style="display:flex; gap:6px;">
+            <button type="button" data-cat="" style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.06em; color:#dfe3e9; background:#23272f; border:1px solid #23272f; border-radius:6px; padding:7px 11px; cursor:pointer;">TOUS</button>
+            <button type="button" data-cat="green" style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.06em; color:#8b93a0; background:#111419; border:1px solid #23272f; border-radius:6px; padding:7px 11px; cursor:pointer;">🌳 VERT</button>
+            <button type="button" data-cat="indoor" style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.06em; color:#8b93a0; background:#111419; border:1px solid #23272f; border-radius:6px; padding:7px 11px; cursor:pointer;">🏛 INTÉRIEUR</button>
+            <button type="button" data-cat="water" style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.06em; color:#8b93a0; background:#111419; border:1px solid #23272f; border-radius:6px; padding:7px 11px; cursor:pointer;">💧 EAU</button>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:14px; padding:8px 11px; font-size:9px; letter-spacing:0.1em; color:#6c7480; border-bottom:1px solid #1d2128;">
+          <div style="flex:1; min-width:0;">NOM</div>
+          <div style="width:160px; flex:none;">COMMUNE</div>
+          <div style="width:110px; flex:none;">TYPE</div>
+          <div style="width:70px; flex:none; text-align:right;">SCORE</div>
+          <div style="width:60px; flex:none; text-align:right;">Δ°C</div>
+        </div>
+        <div id="fullSpotsList" class="scrl" style="display:flex; flex-direction:column; gap:1px; max-height:460px; overflow-y:auto; margin-top:2px;"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var AMBIENT = 36;
+  var SCALE_MIN = -14, SCALE_MAX = 6;
+  var zeroPct = ((0 - SCALE_MIN) / (SCALE_MAX - SCALE_MIN)) * 100;
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function barColor(delta) {
+    if (delta <= -11) return 'linear-gradient(90deg,#1f6feb,#36d6c8)';
+    if (delta <= -8) return 'linear-gradient(90deg,#2575e8,#36d6c8)';
+    if (delta <= -5) return 'linear-gradient(90deg,#2a86ef,#4fd6b0)';
+    return 'linear-gradient(90deg,#4fb0d8,#7bd98a)';
+  }
+
+  function valueColor(delta) {
+    if (delta <= -11) return '#36d6c8';
+    if (delta <= -5) return '#4fd6b0';
+    return '#7bd98a';
+  }
+
+  // Illustrative landmark references for visual contrast — not part of the coolspots dataset.
+  var HOT_REFERENCE_SPOTS = [
+    { name: 'Place Rogier', commune: 'Bruxelles-Ville', category: 'zone chaude', deltaTempC: 3, mock: true },
+    { name: 'Gare du Midi', commune: 'Anderlecht', category: 'zone chaude', deltaTempC: 5, mock: true },
+    { name: 'Place de la Bourse', commune: 'Bruxelles-Ville', category: 'zone chaude', deltaTempC: 4, mock: true },
+    { name: 'Quartier Nord (tour des finances)', commune: 'Saint-Josse-ten-Noode', category: 'zone chaude', deltaTempC: 6, mock: true },
+    { name: 'Boulevard Anspach', commune: 'Bruxelles-Ville', category: 'zone chaude', deltaTempC: 4, mock: true },
+    { name: 'Pont Van Praet', commune: 'Bruxelles-Ville', category: 'zone chaude', deltaTempC: 5, mock: true },
+    { name: 'Square Sainctelette', commune: 'Molenbeek-Saint-Jean', category: 'zone chaude', deltaTempC: 4, mock: true }
+  ];
+
+  function googleMapsUrl(s) {
+    var query = (typeof s.lat === 'number' && typeof s.lon === 'number')
+      ? s.lat + ',' + s.lon
+      : [s.name, s.commune, 'Bruxelles'].filter(Boolean).join(' ');
+    return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
+  }
+
+  function spotLink(s) {
+    return '<a href="' + googleMapsUrl(s) + '" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none; border-bottom:1px dotted #3a4250;">' + escapeHtml(s.name) + '</a>';
+  }
+
+  function hotBarColor(delta) {
+    return delta >= 5 ? 'linear-gradient(90deg,#ff7a1a,#c81d1d)' : 'linear-gradient(90deg,#ff9e1b,#ec3b2b)';
+  }
+
+  function hotValueColor(delta) {
+    return delta >= 5 ? '#ff6a2b' : '#ff7a3c';
+  }
+
+  function normalizeText(s) {
+    return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+  }
+
+  function inferIndoorDelta(item) {
+    if (typeof item.cool_score !== 'number') return -7;
+    if (item.cool_score >= 75) return -13;
+    if (item.cool_score >= 60) return -10;
+    if (item.cool_score >= 45) return -8;
+    return -6;
+  }
+
+  function inferWaterDelta(item) {
+    if (item.type === 'drinking_water') return -4;
+    if (item.type === 'street_fountain') return -5;
+    if (item.type === 'ornamental_fountain') return -4;
+    if ((item.surface_m2 || 0) > 5000) return -8;
+    if ((item.surface_m2 || 0) > 1000) return -7;
+    return -6;
+  }
+
+  function inferAxisDelta(axis) {
+    if (axis.placeType === 'forest') return -11;
+    if (axis.placeType === 'park') return axis.score >= 90 ? -10 : axis.score >= 80 ? -8 : -6;
+    if (axis.placeType === 'water') return -7;
+    return axis.score >= 90 ? -9 : axis.score >= 80 ? -7 : -5;
+  }
+
+  function categoryLabelForSpot(spot) {
+    if (spot.category === 'green') return '🌳 vert';
+    if (spot.category === 'water') return '💧 eau';
+    if (spot.category === 'indoor') return '🏛 intérieur';
+    return spot.category || '—';
+  }
+
+  function mapDataToSpots(data) {
+    var spots = [];
+
+    (data.communes || []).forEach(function (commune) {
+      (commune.axes || []).forEach(function (axis, index) {
+        spots.push({
+          id: 'axis-' + commune.slug + '-' + index,
+          name: axis.rue,
+          commune: commune.label,
+          lat: axis.centLat,
+          lon: axis.centLon,
+          category: axis.placeType === 'water' ? 'water' : 'green',
+          subtype: axis.placeType === 'street' ? 'rue ombragée' : axis.placeType === 'park' ? 'parc' : axis.placeType === 'forest' ? 'bois' : axis.placeType,
+          coolScore: axis.score,
+          deltaTempC: inferAxisDelta(axis)
+        });
+      });
+    });
+
+    (data.indoorCoolspots || []).forEach(function (item) {
+      spots.push({
+        id: item.id,
+        name: item.name,
+        commune: item.commune,
+        lat: item.lat,
+        lon: item.lon,
+        category: 'indoor',
+        subtype: item.type === 'library'
+          ? 'bibliothèque'
+          : item.type === 'pool'
+            ? 'piscine'
+            : item.type === 'sports_centre'
+              ? 'centre sportif'
+              : item.type === 'museum'
+                ? 'musée'
+                : item.type === 'mall'
+                  ? 'centre commercial'
+                  : item.type === 'station'
+                    ? 'gare / station'
+                    : 'refuge intérieur',
+        coolScore: item.cool_score,
+        deltaTempC: inferIndoorDelta(item)
+      });
+    });
+
+    (data.coolingWaterPoints || []).forEach(function (item) {
+      spots.push({
+        id: item.id,
+        name: item.name,
+        commune: item.commune,
+        lat: item.lat,
+        lon: item.lon,
+        category: 'water',
+        subtype: item.type === 'drinking_water'
+          ? 'borne potable'
+          : item.type === 'street_fountain'
+            ? 'fontaine'
+            : item.type === 'ornamental_fountain'
+              ? 'fontaine ornementale'
+              : 'étang / bassin',
+        coolScore: item.type === 'drinking_water' ? 58 : item.type === 'pond' ? 72 : 52,
+        deltaTempC: inferWaterDelta(item)
+      });
+    });
+
+    return spots.filter(function (spot) {
+      return spot.name && typeof spot.deltaTempC === 'number';
+    });
+  }
+
+  fetch('coolspots-data.json')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var allSpots = mapDataToSpots(data);
+
+      var communeSelect = document.getElementById('communeFilter');
+      var communes = Array.from(new Set(allSpots.map(function (s) { return s.commune; }).filter(Boolean))).sort(function (a, b) {
+        return a.localeCompare(b, 'fr');
+      });
+      communes.forEach(function (c) {
+        var opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        communeSelect.appendChild(opt);
+      });
+
+      var fullList = document.getElementById('fullSpotsList');
+      var countLabel = document.getElementById('fullListCount');
+      var categoryBtns = Array.prototype.slice.call(document.querySelectorAll('#categoryFilter button'));
+      var activeCategory = '';
+
+      function setActiveCategoryButton() {
+        categoryBtns.forEach(function (btn) {
+          var active = btn.getAttribute('data-cat') === activeCategory;
+          btn.style.background = active ? '#23272f' : '#111419';
+          btn.style.color = active ? '#dfe3e9' : '#8b93a0';
+        });
+      }
+
+      function currentCommuneSpots() {
+        var commune = communeSelect.value;
+        return commune ? allSpots.filter(function (s) { return s.commune === commune; }) : allSpots;
+      }
+
+      function renderRefuge(ranked) {
+        var best = ranked[0];
+        var refuge = document.getElementById('bestRefuge');
+        if (!best) {
+          refuge.innerHTML = '<div style="font-size:11px; color:#5f6772;">Aucun spot pour cette commune.</div>';
+          return;
+        }
+        var temp = AMBIENT + best.deltaTempC;
+        refuge.innerHTML =
+          '<div>' +
+            '<div style="font-family:\'Space Grotesk\',sans-serif; font-weight:600; font-size:17px; color:#eafffb;">' + spotLink(best) + '</div>' +
+            '<div style="font-size:10.5px; color:#7d8a87; margin-top:3px;">' + escapeHtml(best.commune) + ' · ' + escapeHtml(best.subtype || best.category) + '</div>' +
+          '</div>' +
+          '<div style="text-align:right;">' +
+            '<div style="font-family:\'Space Grotesk\',sans-serif; font-weight:700; font-size:34px; line-height:0.85; color:#36d6c8;">' + temp + '°</div>' +
+            '<div style="font-size:11px; font-weight:600; color:#36d6c8; margin-top:2px;">' + (best.deltaTempC > 0 ? '+' : '') + best.deltaTempC + '° vs ambiant</div>' +
+          '</div>';
+      }
+
+      function barRow(s, isHot) {
+        var delta = s.deltaTempC;
+        var temp = AMBIENT + delta;
+        var widthPct = Math.abs(delta) / (SCALE_MAX - SCALE_MIN) * 100;
+        var barStyle = delta < 0
+          ? 'right:' + (100 - zeroPct) + '%; width:' + widthPct + '%; border-radius:3px 0 0 3px;'
+          : 'left:' + zeroPct + '%; width:' + widthPct + '%; border-radius:0 3px 3px 0;';
+        var color = isHot ? hotBarColor(delta) : barColor(delta);
+        var valColor = isHot ? hotValueColor(delta) : valueColor(delta);
+        return (
+          '<div style="display:flex; align-items:center; gap:14px;">' +
+            '<div style="width:172px; flex:none; text-align:right; font-size:11px; color:#c4cad4; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + spotLink(s) + (s.mock ? ' <span style="color:#5f6772;">(réf.)</span>' : '') + '</div>' +
+            '<div style="flex:1; position:relative; height:20px;">' +
+              '<div style="position:absolute; left:' + zeroPct + '%; top:-5px; bottom:-5px; width:1px; background:#3a4250;"></div>' +
+              '<div style="position:absolute; top:3px; height:14px; ' + barStyle + ' background:' + color + ';"></div>' +
+            '</div>' +
+            '<div style="width:96px; flex:none; display:flex; gap:9px; justify-content:flex-end; font-size:11px;"><span style="font-weight:600; color:' + valColor + ';">' + (delta > 0 ? '+' : '') + delta + '°</span><span style="color:#6c7480;">' + temp + '°C</span></div>' +
+          '</div>'
+        );
+      }
+
+      function renderBars(ranked) {
+        var top9 = ranked.slice(0, 9);
+        var caption = document.getElementById('spotBarsCaption');
+        caption.textContent = top9.length + ' spots les plus frais · données coolspots-data.json · maj ' +
+          new Date(data.generated).toLocaleDateString('fr-BE') + ' · réf. chaleur illustratives';
+
+        var barsList = document.getElementById('spotBarsList');
+        var rows = top9.map(function (s) { return barRow(s, false); });
+        rows.push('<div style="height:1px; background:#1d2128; margin:4px 0;"></div>');
+        HOT_REFERENCE_SPOTS.forEach(function (s) { rows.push(barRow(s, true)); });
+        barsList.innerHTML = rows.join('');
+      }
+
+      function renderLive(ranked) {
+        var top5 = ranked.slice(0, 5);
+        var liveList = document.getElementById('liveSpotsList');
+        liveList.innerHTML = top5.map(function (s) {
+          var delta = s.deltaTempC;
+          var temp = AMBIENT + delta;
+          var color = valueColor(delta);
+          return (
+            '<div style="display:flex; align-items:center; gap:11px; background:#111419; border-left:2px solid ' + color + '; border-radius:0 7px 7px 0; padding:9px 11px;">' +
+              '<div style="flex:1; min-width:0;"><div style="font-size:11.5px; color:#dfe3e9; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + spotLink(s) + '</div><div style="font-size:9px; letter-spacing:0.1em; color:#5f6772; margin-top:2px;">' + escapeHtml((s.subtype || s.category || '').toUpperCase()) + ' · ' + escapeHtml(s.commune) + '</div></div>' +
+              '<div style="width:42px; height:6px; border-radius:3px; background:' + barColor(delta) + ';"></div>' +
+              '<div style="text-align:right; width:54px;"><div style="font-family:\'Space Grotesk\',sans-serif; font-weight:600; font-size:16px; color:' + color + ';">' + temp + '°</div><div style="font-size:9px; color:#5f6772;">' + delta + '°</div></div>' +
+            '</div>'
+          );
+        }).join('');
+      }
+
+      function renderFullList() {
+        var commune = communeSelect.value;
+        var filtered = allSpots.filter(function (s) {
+          return (!commune || s.commune === commune) && (!activeCategory || s.category === activeCategory);
+        }).sort(function (a, b) { return a.name.localeCompare(b.name, 'fr'); });
+
+        countLabel.textContent = filtered.length + ' / ' + allSpots.length + ' spots';
+
+        if (!filtered.length) {
+          fullList.innerHTML = '<div style="padding:18px 11px; font-size:11px; color:#5f6772;">Aucun spot pour ce filtre.</div>';
+          return;
+        }
+
+        fullList.innerHTML = filtered.map(function (s) {
+          var delta = s.deltaTempC;
+          var hasDelta = typeof delta === 'number';
+          return (
+            '<div style="display:flex; align-items:center; gap:14px; padding:9px 11px; border-bottom:1px solid #14171c;">' +
+              '<div style="flex:1; min-width:0; font-size:11.5px; color:#dfe3e9; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + spotLink(s) + '</div>' +
+              '<div style="width:160px; flex:none; font-size:10.5px; color:#8b93a0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + escapeHtml(s.commune || '—') + '</div>' +
+              '<div style="width:110px; flex:none; font-size:10px; color:#8b93a0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + escapeHtml(categoryLabelForSpot(s)) + '</div>' +
+              '<div style="width:70px; flex:none; text-align:right; font-size:11px; color:#c4cad4;">' + (typeof s.coolScore === 'number' ? s.coolScore : '—') + '</div>' +
+              '<div style="width:60px; flex:none; text-align:right; font-size:11px; font-weight:600; color:' + (hasDelta ? valueColor(delta) : '#5f6772') + ';">' + (hasDelta ? ((delta > 0 ? '+' : '') + delta + '°') : '—') + '</div>' +
+            '</div>'
+          );
+        }).join('');
+      }
+
+      function renderAll() {
+        var scoped = currentCommuneSpots();
+        var ranked = scoped.slice().sort(function (a, b) {
+          return (b.coolScore || 0) - (a.coolScore || 0) || a.deltaTempC - b.deltaTempC;
+        });
+        renderRefuge(ranked);
+        renderBars(ranked);
+        renderLive(ranked);
+        renderFullList();
+      }
+
+      communeSelect.addEventListener('change', renderAll);
+      categoryBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          activeCategory = btn.getAttribute('data-cat');
+          setActiveCategoryButton();
+          renderFullList();
+        });
+      });
+
+      setActiveCategoryButton();
+      renderAll();
+    })
+    .catch(function (err) {
+      console.error('Impossible de charger coolspots-data.json', err);
+    });
+})();
+</script>
+</body>
+</html>

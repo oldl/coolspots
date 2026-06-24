@@ -1,0 +1,10 @@
+{
+  "name": "coolspots",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static Brussels coolspots dashboard with build-time data refresh.",
+  "scripts": {
+    "update:data": "node scripts/update-coolspots-data.js",
+    "fetch:coolspots": "node scripts/update-coolspots-data.js"
+  }
+}
