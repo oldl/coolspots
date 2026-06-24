@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; }
-  body { margin: 0; }
+  body { margin: 0; overflow-x: hidden; }
   .scrl::-webkit-scrollbar { width: 7px; }
   .scrl::-webkit-scrollbar-thumb { background: #23272f; border-radius: 4px; }
   .scrl::-webkit-scrollbar-track { background: transparent; }
@@ -58,7 +58,7 @@
 
     <div class="mainGrid" style="display:grid; grid-template-columns:360px 1fr; gap:16px; align-items:start;">
 
-      <div style="display:flex; flex-direction:column; gap:16px;">
+      <div style="display:flex; flex-direction:column; gap:16px; min-width:0;">
 
         <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:20px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -209,13 +209,13 @@
             </svg>
           </div>
 
-          <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:18px 16px;">
+          <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:18px 16px; min-width:0; overflow:hidden;">
             <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px;">
               <span style="font-size:11px; letter-spacing:0.16em; color:#aeb6c2;">RELEVÉ TEMPS RÉEL</span>
               <span style="font-size:9.5px; letter-spacing:0.08em; color:#36d6c8;">● LIVE</span>
             </div>
 
-            <div id="liveSpotsList" style="display:flex; flex-direction:column; gap:8px;"></div>
+            <div id="liveSpotsList" style="display:flex; flex-direction:column; gap:8px; min-width:0;"></div>
 
             <div style="margin-top:14px; padding-top:13px; border-top:1px solid #1d2128; display:flex; align-items:center; justify-content:space-between;">
               <span style="font-size:10px; letter-spacing:0.1em; color:#6c7480;">Besoin d'aide ? Coup de chaud</span>
@@ -249,7 +249,7 @@
           <div style="width:70px; flex:none; text-align:right;">SCORE</div>
           <div style="width:60px; flex:none; text-align:right;">Δ°C</div>
         </div>
-        <div id="fullSpotsList" class="scrl" style="display:flex; flex-direction:column; gap:1px; max-height:460px; overflow-y:auto; margin-top:2px;"></div>
+        <div id="fullSpotsList" class="scrl" style="display:flex; flex-direction:column; gap:1px; max-height:460px; overflow-y:auto; overflow-x:hidden; margin-top:2px;"></div>
       </div>
 
     </div>
@@ -354,6 +354,24 @@
     return spot.category || '—';
   }
 
+  function dedupeSpots(spots) {
+    var seen = new Map();
+    spots.forEach(function (spot) {
+      var key = [
+        normalizeText(spot.name),
+        normalizeText(spot.commune),
+        spot.category || '',
+        Math.round((spot.lat || 0) * 1000) / 1000,
+        Math.round((spot.lon || 0) * 1000) / 1000
+      ].join('|');
+      var existing = seen.get(key);
+      if (!existing || (spot.coolScore || 0) > (existing.coolScore || 0)) {
+        seen.set(key, spot);
+      }
+    });
+    return Array.from(seen.values());
+  }
+
   function mapDataToSpots(data) {
     var spots = [];
 
@@ -419,7 +437,7 @@
       });
     });
 
-    return spots.filter(function (spot) {
+    return dedupeSpots(spots).filter(function (spot) {
       return spot.name && typeof spot.deltaTempC === 'number';
     });
   }
