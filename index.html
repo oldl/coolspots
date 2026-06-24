@@ -246,6 +246,15 @@
   var SCALE_MIN = -14, SCALE_MAX = 6;
   var zeroPct = ((0 - SCALE_MIN) / (SCALE_MAX - SCALE_MIN)) * 100;
 
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function fmtDelta(d) { var r = Math.round(d); return (r > 0 ? '+' : '') + r + '°'; }
+  function fmtTemp(d) { return Math.round(AMBIENT + d) + '°C'; }
+  function hasMeaningfulName(name) {
+    var n = String(name || '').trim();
+    if (n.length < 2) return false;
+    return /[a-zà-ÿ]/i.test(n);
+  }
+
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -299,28 +308,28 @@
     return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
   }
 
+  // Continuous Δ°C derived from cool_score so every spot ranks distinctly.
   function inferIndoorDelta(item) {
-    if (typeof item.cool_score !== 'number') return -7;
-    if (item.cool_score >= 75) return -13;
-    if (item.cool_score >= 60) return -10;
-    if (item.cool_score >= 45) return -8;
-    return -6;
+    var s = typeof item.cool_score === 'number' ? clamp(item.cool_score, 0, 100) : 50;
+    return -(6 + (s / 100) * 8);
   }
 
   function inferWaterDelta(item) {
     if (item.type === 'drinking_water') return -4;
-    if (item.type === 'street_fountain') return -5;
-    if (item.type === 'ornamental_fountain') return -4;
-    if ((item.surface_m2 || 0) > 5000) return -8;
-    if ((item.surface_m2 || 0) > 1000) return -7;
+    if (item.type === 'street_fountain') return -5.5;
+    if (item.type === 'ornamental_fountain') return -4.5;
+    var a = item.surface_m2 || 0;
+    if (a > 5000) return -9;
+    if (a > 1000) return -7.5;
     return -6;
   }
 
   function inferAxisDelta(axis) {
-    if (axis.placeType === 'forest') return -11;
-    if (axis.placeType === 'park') return axis.score >= 90 ? -10 : axis.score >= 80 ? -8 : -6;
-    if (axis.placeType === 'water') return -7;
-    return axis.score >= 90 ? -9 : axis.score >= 80 ? -7 : -5;
+    var s = typeof axis.score === 'number' ? clamp(axis.score, 0, 100) : 60;
+    if (axis.placeType === 'forest') return -(10 + (s / 100) * 4);
+    if (axis.placeType === 'park') return -(7 + (s / 100) * 5);
+    if (axis.placeType === 'water') return -(6 + (s / 100) * 3);
+    return -(4 + (s / 100) * 4);
   }
 
   function categoryLabelForSpot(spot) {
@@ -441,7 +450,7 @@
           refuge.innerHTML = '<div style="font-size:11px; color:#5f6772;">Aucun spot pour cette commune.</div>';
           return;
         }
-        var temp = AMBIENT + best.deltaTempC;
+        var temp = Math.round(AMBIENT + best.deltaTempC);
         refuge.innerHTML =
           '<div>' +
             '<div style="font-family:\'Space Grotesk\',sans-serif; font-weight:600; font-size:17px; color:#eafffb;">' + spotLink(best) + '</div>' +
@@ -449,7 +458,7 @@
           '</div>' +
           '<div style="text-align:right;">' +
             '<div style="font-family:\'Space Grotesk\',sans-serif; font-weight:700; font-size:34px; line-height:0.85; color:#36d6c8;">' + temp + '°</div>' +
-            '<div style="font-size:11px; font-weight:600; color:#36d6c8; margin-top:2px;">' + (best.deltaTempC > 0 ? '+' : '') + best.deltaTempC + '° vs ambiant</div>' +
+            '<div style="font-size:11px; font-weight:600; color:#36d6c8; margin-top:2px;">' + fmtDelta(best.deltaTempC) + ' vs ambiant</div>' +
           '</div>';
       }
 
@@ -469,7 +478,7 @@
               '<div style="position:absolute; left:' + zeroPct + '%; top:-5px; bottom:-5px; width:1px; background:#3a4250;"></div>' +
               '<div style="position:absolute; top:3px; height:14px; ' + barStyle + ' background:' + color + ';"></div>' +
             '</div>' +
-            '<div style="width:96px; flex:none; display:flex; gap:9px; justify-content:flex-end; font-size:11px;"><span style="font-weight:600; color:' + valColor + ';">' + (delta > 0 ? '+' : '') + delta + '°</span><span style="color:#6c7480;">' + temp + '°C</span></div>' +
+            '<div style="width:96px; flex:none; display:flex; gap:9px; justify-content:flex-end; font-size:11px;"><span style="font-weight:600; color:' + valColor + ';">' + fmtDelta(delta) + '</span><span style="color:#6c7480;">' + fmtTemp(delta) + '</span></div>' +
           '</div>'
         );
       }
@@ -492,13 +501,13 @@
         var liveList = document.getElementById('liveSpotsList');
         liveList.innerHTML = top5.map(function (s) {
           var delta = s.deltaTempC;
-          var temp = AMBIENT + delta;
+          var temp = Math.round(AMBIENT + delta);
           var color = valueColor(delta);
           return (
             '<div style="display:flex; align-items:center; gap:11px; background:#111419; border-left:2px solid ' + color + '; border-radius:0 7px 7px 0; padding:9px 11px;">' +
               '<div style="flex:1; min-width:0;"><div style="font-size:11.5px; color:#dfe3e9; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + spotLink(s) + '</div><div style="font-size:9px; letter-spacing:0.1em; color:#5f6772; margin-top:2px;">' + escapeHtml((s.subtype || s.category || '').toUpperCase()) + ' · ' + escapeHtml(s.commune) + '</div></div>' +
               '<div style="width:42px; height:6px; border-radius:3px; background:' + barColor(delta) + ';"></div>' +
-              '<div style="text-align:right; width:54px;"><div style="font-family:\'Space Grotesk\',sans-serif; font-weight:600; font-size:16px; color:' + color + ';">' + temp + '°</div><div style="font-size:9px; color:#5f6772;">' + delta + '°</div></div>' +
+              '<div style="text-align:right; width:54px;"><div style="font-family:\'Space Grotesk\',sans-serif; font-weight:600; font-size:16px; color:' + color + ';">' + temp + '°</div><div style="font-size:9px; color:#5f6772;">' + fmtDelta(delta) + '</div></div>' +
             '</div>'
           );
         }).join('');
@@ -507,8 +516,14 @@
       function renderFullList() {
         var commune = communeSelect.value;
         var filtered = allSpots.filter(function (s) {
-          return (!commune || s.commune === commune) && (!activeCategory || s.category === activeCategory);
-        }).sort(function (a, b) { return a.name.localeCompare(b.name, 'fr'); });
+          return (!commune || s.commune === commune) &&
+                 (!activeCategory || s.category === activeCategory) &&
+                 hasMeaningfulName(s.name) && s.commune;
+        }).sort(function (a, b) {
+          return (b.coolScore || 0) - (a.coolScore || 0) ||
+                 a.deltaTempC - b.deltaTempC ||
+                 a.name.localeCompare(b.name, 'fr');
+        });
 
         countLabel.textContent = filtered.length + ' / ' + allSpots.length + ' spots';
 
@@ -526,7 +541,7 @@
               '<div style="width:160px; flex:none; font-size:10.5px; color:#8b93a0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + escapeHtml(s.commune || '—') + '</div>' +
               '<div style="width:110px; flex:none; font-size:10px; color:#8b93a0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + escapeHtml(categoryLabelForSpot(s)) + '</div>' +
               '<div style="width:70px; flex:none; text-align:right; font-size:11px; color:#c4cad4;">' + (typeof s.coolScore === 'number' ? s.coolScore : '—') + '</div>' +
-              '<div style="width:60px; flex:none; text-align:right; font-size:11px; font-weight:600; color:' + (hasDelta ? valueColor(delta) : '#5f6772') + ';">' + (hasDelta ? ((delta > 0 ? '+' : '') + delta + '°') : '—') + '</div>' +
+              '<div style="width:60px; flex:none; text-align:right; font-size:11px; font-weight:600; color:' + (hasDelta ? valueColor(delta) : '#5f6772') + ';">' + (hasDelta ? fmtDelta(delta) : '—') + '</div>' +
             '</div>'
           );
         }).join('');
@@ -535,7 +550,7 @@
       function renderAll() {
         var scoped = currentCommuneSpots();
         var ranked = scoped.slice().sort(function (a, b) {
-          return (b.coolScore || 0) - (a.coolScore || 0) || a.deltaTempC - b.deltaTempC;
+          return a.deltaTempC - b.deltaTempC || (b.coolScore || 0) - (a.coolScore || 0);
         });
         renderRefuge(ranked);
         renderBars(ranked);
