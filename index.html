@@ -13,19 +13,34 @@
   .scrl::-webkit-scrollbar { width: 7px; }
   .scrl::-webkit-scrollbar-thumb { background: #23272f; border-radius: 4px; }
   .scrl::-webkit-scrollbar-track { background: transparent; }
+
+  @media (max-width: 760px) {
+    .page { padding: 16px 12px !important; }
+    .topbar { flex-direction: column !important; align-items: stretch !important; gap: 14px !important; }
+    .topbar-controls { flex-wrap: wrap !important; }
+    .mainGrid { grid-template-columns: 1fr !important; }
+    .splitGrid { grid-template-columns: 1fr !important; }
+    #spotBarsList > div > div:first-child,
+    .barAxis > div:first-child { width: 92px !important; font-size: 10px !important; }
+    #spotBarsList > div > div:last-child,
+    .barAxis > div:last-child { width: 78px !important; }
+    #spotBarsList > div > div:last-child { gap: 6px !important; }
+    #fullListHeader > div:nth-child(2), #fullListHeader > div:nth-child(3),
+    #fullSpotsList > div > div:nth-child(2), #fullSpotsList > div > div:nth-child(3) { display: none !important; }
+  }
 </style>
 </head>
 <body>
-<div style="min-height:100vh; box-sizing:border-box; padding:38px 42px; background:#070809; background-image:radial-gradient(1000px 540px at 50% 122%, rgba(232,51,42,.16), transparent 68%); font-family:'JetBrains Mono',monospace; color:#e6e9ee;">
+<div class="page" style="min-height:100vh; box-sizing:border-box; padding:38px 42px; background:#070809; background-image:radial-gradient(1000px 540px at 50% 122%, rgba(232,51,42,.16), transparent 68%); font-family:'JetBrains Mono',monospace; color:#e6e9ee;">
 
   <div style="max-width:1360px; margin:0 auto;">
 
-    <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:22px;">
+    <div class="topbar" style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:22px;">
       <div style="display:flex; flex-direction:column; gap:7px;">
         <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:27px; letter-spacing:-0.01em; line-height:1; color:#f1f3f6;">COOL<span style="color:#ff6a2b;">SPOTS</span></div>
         <div style="font-size:10.5px; letter-spacing:0.2em; color:#5f6772;">CANICULE&nbsp;//&nbsp;TABLEAU DE BORD THERMIQUE&nbsp;//&nbsp;BRUXELLES</div>
       </div>
-      <div style="display:flex; align-items:center; gap:10px;">
+      <div class="topbar-controls" style="display:flex; align-items:center; gap:10px;">
         <div style="display:flex; align-items:center; gap:8px; border:1px solid #23272f; border-radius:7px; padding:7px 8px 7px 12px;">
           <span style="width:6px; height:6px; border-radius:50%; background:#36d6c8; box-shadow:0 0 8px #36d6c8; flex:none;"></span>
           <select id="communeFilter" style="appearance:none; background:transparent; border:none; outline:none; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; color:#aeb6c2; padding-right:4px;">
@@ -41,7 +56,7 @@
       </div>
     </div>
 
-    <div style="display:grid; grid-template-columns:360px 1fr; gap:16px; align-items:start;">
+    <div class="mainGrid" style="display:grid; grid-template-columns:360px 1fr; gap:16px; align-items:start;">
 
       <div style="display:flex; flex-direction:column; gap:16px;">
 
@@ -125,7 +140,7 @@
 
           <div id="spotBarsList" style="display:flex; flex-direction:column; gap:9px;"></div>
 
-          <div style="display:flex; align-items:center; gap:14px; margin-top:16px; padding-top:14px; border-top:1px solid #1d2128;">
+          <div class="barAxis" style="display:flex; align-items:center; gap:14px; margin-top:16px; padding-top:14px; border-top:1px solid #1d2128;">
             <div style="width:172px; flex:none;"></div>
             <div style="flex:1; position:relative;">
               <div style="height:6px; border-radius:3px; background:linear-gradient(90deg,#1f6feb,#36d6c8,#ffe14d,#ff7a1a,#e2382e);"></div>
@@ -140,7 +155,7 @@
           </div>
         </div>
 
-        <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:16px; align-items:start;">
+        <div class="splitGrid" style="display:grid; grid-template-columns:1.3fr 1fr; gap:16px; align-items:start;">
 
           <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:18px 18px 14px;">
             <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:6px;">
@@ -227,7 +242,7 @@
           </div>
         </div>
 
-        <div style="display:flex; gap:14px; padding:8px 11px; font-size:9px; letter-spacing:0.1em; color:#6c7480; border-bottom:1px solid #1d2128;">
+        <div id="fullListHeader" style="display:flex; gap:14px; padding:8px 11px; font-size:9px; letter-spacing:0.1em; color:#6c7480; border-bottom:1px solid #1d2128;">
           <div style="flex:1; min-width:0;">NOM</div>
           <div style="width:160px; flex:none;">COMMUNE</div>
           <div style="width:110px; flex:none;">TYPE</div>
