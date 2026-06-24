@@ -20,13 +20,29 @@
     .topbar-controls { flex-wrap: wrap !important; }
     .mainGrid { grid-template-columns: 1fr !important; }
     .splitGrid { grid-template-columns: 1fr !important; }
-    #spotBarsList > div > div:first-child,
-    .barAxis > div:first-child { width: 92px !important; font-size: 10px !important; }
-    #spotBarsList > div > div:last-child,
-    .barAxis > div:last-child { width: 78px !important; }
-    #spotBarsList > div > div:last-child { gap: 6px !important; }
+    #categoryFilter { flex-wrap: wrap !important; }
     #fullListHeader > div:nth-child(2), #fullListHeader > div:nth-child(3),
     #fullSpotsList > div > div:nth-child(2), #fullSpotsList > div > div:nth-child(3) { display: none !important; }
+    #fullListHeader { gap: 10px !important; }
+    #fullListHeader > div:first-child { flex: 1 !important; }
+    #fullSpotsList > div {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) 52px 48px !important;
+      gap: 10px !important;
+      align-items: start !important;
+    }
+    #fullSpotsList > div > div:first-child {
+      white-space: normal !important;
+      overflow: visible !important;
+      text-overflow: unset !important;
+      line-height: 1.4 !important;
+      padding-right: 4px !important;
+    }
+    #fullSpotsList > div > div:nth-child(4),
+    #fullSpotsList > div > div:nth-child(5) {
+      width: auto !important;
+      text-align: right !important;
+    }
   }
 </style>
 </head>
@@ -127,9 +143,23 @@
           </div>
         </div>
 
+        <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:18px 16px; min-width:0; overflow:hidden;">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px;">
+            <span style="font-size:11px; letter-spacing:0.16em; color:#aeb6c2;">RELEVÉ TEMPS RÉEL</span>
+            <span style="font-size:9.5px; letter-spacing:0.08em; color:#36d6c8;">● LIVE</span>
+          </div>
+
+          <div id="liveSpotsList" style="display:flex; flex-direction:column; gap:8px; min-width:0;"></div>
+
+          <div style="margin-top:14px; padding-top:13px; border-top:1px solid #1d2128; display:flex; align-items:center; justify-content:space-between;">
+            <span style="font-size:10px; letter-spacing:0.1em; color:#6c7480;">Besoin d'aide ? Coup de chaud</span>
+            <span style="font-size:10px; font-weight:600; letter-spacing:0.06em; color:#fff; background:#e2382e; border-radius:6px; padding:7px 11px;">CONSEILS</span>
+          </div>
+        </div>
+
       </div>
 
-      <div style="display:flex; flex-direction:column; gap:16px;">
+      <div style="display:flex; flex-direction:column; gap:16px; min-width:0;">
 
         <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:18px 18px 14px;">
           <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:6px; flex-wrap:wrap; gap:10px;">
@@ -146,28 +176,26 @@
             </div>
           </div>
 
-          <div id="fullListHeader" style="display:flex; gap:14px; padding:8px 11px; font-size:9px; letter-spacing:0.1em; color:#6c7480; border-bottom:1px solid #1d2128;">
-            <div style="flex:1; min-width:0;">NOM</div>
-            <div style="width:160px; flex:none;">COMMUNE</div>
-            <div style="width:110px; flex:none;">TYPE</div>
-            <div style="width:70px; flex:none; text-align:right;">SCORE</div>
-            <div style="width:60px; flex:none; text-align:right;">Δ°C</div>
+          <div id="fullListHeader" style="display:grid; grid-template-columns:minmax(0,1fr) 148px 100px 54px 46px; gap:14px; padding:8px 11px; font-size:9px; letter-spacing:0.1em; color:#6c7480; border-bottom:1px solid #1d2128; align-items:center;">
+            <div style="min-width:0;">NOM</div>
+            <div>COMMUNE</div>
+            <div>TYPE</div>
+            <div style="text-align:right;">SCORE</div>
+            <div style="text-align:right;">Δ°C</div>
           </div>
           <div id="fullSpotsList" class="scrl" style="display:flex; flex-direction:column; gap:1px; max-height:520px; overflow-y:auto; overflow-x:hidden; margin-top:2px;"></div>
         </div>
 
-        <div class="splitGrid" style="display:grid; grid-template-columns:1.3fr 1fr; gap:16px; align-items:start;">
-
-          <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:18px 18px 14px;">
-            <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:6px;">
-              <span style="font-size:11px; letter-spacing:0.16em; color:#aeb6c2;">COURBE DU JOUR</span>
-              <span style="font-size:9.5px; letter-spacing:0.08em; color:#5f6772;">°C / 24H</span>
-            </div>
-            <div style="display:flex; gap:16px; margin-bottom:8px;">
-              <span style="display:flex; align-items:center; gap:6px; font-size:9.5px; color:#8b93a0;"><span style="width:14px; height:2px; background:#e6e9ee;"></span>Réel</span>
-              <span style="display:flex; align-items:center; gap:6px; font-size:9.5px; color:#8b93a0;"><span style="width:14px; height:2px; background:#ff7a3c;"></span>Ressenti</span>
-            </div>
-            <svg viewBox="0 0 880 272" style="width:100%; height:auto; display:block;" preserveAspectRatio="xMidYMid meet">
+        <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:18px 18px 14px;">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:6px;">
+            <span style="font-size:11px; letter-spacing:0.16em; color:#aeb6c2;">COURBE DU JOUR</span>
+            <span style="font-size:9.5px; letter-spacing:0.08em; color:#5f6772;">°C / 24H</span>
+          </div>
+          <div style="display:flex; gap:16px; margin-bottom:8px;">
+            <span style="display:flex; align-items:center; gap:6px; font-size:9.5px; color:#8b93a0;"><span style="width:14px; height:2px; background:#e6e9ee;"></span>Réel</span>
+            <span style="display:flex; align-items:center; gap:6px; font-size:9.5px; color:#8b93a0;"><span style="width:14px; height:2px; background:#ff7a3c;"></span>Ressenti</span>
+          </div>
+          <svg viewBox="0 0 880 272" style="width:100%; height:auto; display:block;" preserveAspectRatio="xMidYMid meet">
               <defs>
                 <linearGradient id="heatfill" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0" stop-color="#ff7a1a" stop-opacity="0.34"/>
@@ -207,23 +235,7 @@
               <text x="655" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">18</text>
               <text x="757.5" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">21</text>
               <text x="860" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">24</text>
-            </svg>
-          </div>
-
-          <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:18px 16px; min-width:0; overflow:hidden;">
-            <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px;">
-              <span style="font-size:11px; letter-spacing:0.16em; color:#aeb6c2;">RELEVÉ TEMPS RÉEL</span>
-              <span style="font-size:9.5px; letter-spacing:0.08em; color:#36d6c8;">● LIVE</span>
-            </div>
-
-            <div id="liveSpotsList" style="display:flex; flex-direction:column; gap:8px; min-width:0;"></div>
-
-            <div style="margin-top:14px; padding-top:13px; border-top:1px solid #1d2128; display:flex; align-items:center; justify-content:space-between;">
-              <span style="font-size:10px; letter-spacing:0.1em; color:#6c7480;">Besoin d'aide ? Coup de chaud</span>
-              <span style="font-size:10px; font-weight:600; letter-spacing:0.06em; color:#fff; background:#e2382e; border-radius:6px; padding:7px 11px;">CONSEILS</span>
-            </div>
-          </div>
-
+          </svg>
         </div>
 
       </div>
@@ -491,12 +503,12 @@
           var delta = s.deltaTempC;
           var hasDelta = typeof delta === 'number';
           return (
-            '<div style="display:flex; align-items:center; gap:14px; padding:9px 11px; border-bottom:1px solid #14171c;">' +
-              '<div style="flex:1; min-width:0; font-size:11.5px; color:#dfe3e9; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + spotLink(s) + '</div>' +
-              '<div style="width:160px; flex:none; font-size:10.5px; color:#8b93a0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + escapeHtml(s.commune || '—') + '</div>' +
-              '<div style="width:110px; flex:none; font-size:10px; color:#8b93a0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + escapeHtml(categoryLabelForSpot(s)) + '</div>' +
-              '<div style="width:70px; flex:none; text-align:right; font-size:11px; color:#c4cad4;">' + (typeof s.coolScore === 'number' ? s.coolScore : '—') + '</div>' +
-              '<div style="width:60px; flex:none; text-align:right; font-size:11px; font-weight:600; color:' + (hasDelta ? valueColor(delta) : '#5f6772') + ';">' + (hasDelta ? fmtDelta(delta) : '—') + '</div>' +
+            '<div style="display:grid; grid-template-columns:minmax(0,1fr) 148px 100px 54px 46px; gap:14px; align-items:center; padding:9px 11px; border-bottom:1px solid #14171c;">' +
+              '<div style="min-width:0; font-size:11.5px; color:#dfe3e9; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + spotLink(s) + '</div>' +
+              '<div style="font-size:10.5px; color:#8b93a0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + escapeHtml(s.commune || '—') + '</div>' +
+              '<div style="font-size:10px; color:#8b93a0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + escapeHtml(categoryLabelForSpot(s)) + '</div>' +
+              '<div style="text-align:right; font-size:11px; color:#c4cad4;">' + (typeof s.coolScore === 'number' ? s.coolScore : '—') + '</div>' +
+              '<div style="text-align:right; font-size:11px; font-weight:600; color:' + (hasDelta ? valueColor(delta) : '#5f6772') + ';">' + (hasDelta ? fmtDelta(delta) : '—') + '</div>' +
             '</div>'
           );
         }).join('');
