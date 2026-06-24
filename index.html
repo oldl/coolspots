@@ -30,11 +30,10 @@
     text-shadow: 0 0 10px rgba(54, 214, 200, 0.22);
   }
   #cs-loader {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: #070809;
-    background-image: radial-gradient(900px 500px at 50% 120%, rgba(232,51,42,.18), transparent 68%);
+    min-height: 520px;
+    border-radius: 10px;
+    background: #0c0f13;
+    background-image: radial-gradient(700px 320px at 50% 120%, rgba(232,51,42,.16), transparent 68%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -42,6 +41,7 @@
     gap: 26px;
     font-family: 'JetBrains Mono', monospace;
     transition: opacity .5s ease;
+    margin-top: 2px;
   }
   #cs-loader.hide { opacity: 0; pointer-events: none; }
   .cs-ring {
@@ -128,16 +128,7 @@
 </style>
 </head>
 <body>
-<div id="cs-loader">
-  <div class="cs-ring">
-    <div class="cs-pulse"></div>
-    <div class="cs-arc"></div>
-    <div class="cs-temp" id="cs-temp">28°</div>
-  </div>
-  <div class="cs-label">LECTURE DES CAPTEURS<span id="cs-dots"></span></div>
-</div>
-
-<div id="appContent" class="page" style="min-height:100vh; box-sizing:border-box; padding:38px 42px; background:#070809; background-image:radial-gradient(1000px 540px at 50% 122%, rgba(232,51,42,.16), transparent 68%); font-family:'JetBrains Mono',monospace; color:#e6e9ee; visibility:hidden;">
+<div id="appContent" class="page" style="min-height:100vh; box-sizing:border-box; padding:38px 42px; background:#070809; background-image:radial-gradient(1000px 540px at 50% 122%, rgba(232,51,42,.16), transparent 68%); font-family:'JetBrains Mono',monospace; color:#e6e9ee;">
 
   <div style="max-width:1360px; margin:0 auto;">
 
@@ -276,7 +267,15 @@
             <div style="text-align:right;">SCORE</div>
             <div style="text-align:right;">Δ°C</div>
           </div>
-          <div id="fullSpotsList" class="scrl" style="display:flex; flex-direction:column; gap:1px; max-height:520px; overflow-y:auto; overflow-x:hidden; margin-top:2px;"></div>
+          <div id="cs-loader">
+            <div class="cs-ring">
+              <div class="cs-pulse"></div>
+              <div class="cs-arc"></div>
+              <div class="cs-temp" id="cs-temp">28°</div>
+            </div>
+            <div class="cs-label">LECTURE DES CAPTEURS<span id="cs-dots"></span></div>
+          </div>
+          <div id="fullSpotsList" class="scrl" style="display:none; flex-direction:column; gap:1px; max-height:520px; overflow-y:auto; overflow-x:hidden; margin-top:2px;"></div>
         </div>
 
         <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:18px 18px 14px;">
@@ -404,7 +403,8 @@
 
   function setLoadingState(isLoading, message) {
     var loader = document.getElementById('cs-loader');
-    var app = document.getElementById('appContent');
+    var fullList = document.getElementById('fullSpotsList');
+    var countLabel = document.getElementById('fullListCount');
     var copy = loader ? loader.querySelector('.cs-label') : null;
     if (copy && message) {
       copy.textContent = message;
@@ -412,14 +412,16 @@
         copy.appendChild(dotsEl);
       }
     }
-    if (!loader || !app) return;
+    if (!loader || !fullList) return;
     if (isLoading) {
       loader.classList.remove('hide');
-      app.style.visibility = 'hidden';
+      loader.style.display = 'flex';
+      fullList.style.display = 'none';
+      if (countLabel) countLabel.textContent = 'chargement…';
       return;
     }
     if (loaderHidden) {
-      app.style.visibility = 'visible';
+      fullList.style.display = 'flex';
       return;
     }
     loaderHidden = true;
@@ -428,9 +430,9 @@
       clearInterval(tempTimer);
       clearInterval(dotsTimer);
       loader.classList.add('hide');
-      app.style.visibility = 'visible';
+      fullList.style.display = 'flex';
       setTimeout(function () {
-        if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
+        if (loader) loader.style.display = 'none';
       }, 520);
     }, wait);
   }
