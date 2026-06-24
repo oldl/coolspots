@@ -29,6 +29,71 @@
     border-bottom-color: #36d6c8;
     text-shadow: 0 0 10px rgba(54, 214, 200, 0.22);
   }
+  #cs-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #070809;
+    background-image: radial-gradient(900px 500px at 50% 120%, rgba(232,51,42,.18), transparent 68%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    font-family: 'JetBrains Mono', monospace;
+    transition: opacity .5s ease;
+  }
+  #cs-loader.hide { opacity: 0; pointer-events: none; }
+  .cs-ring {
+    position: relative;
+    width: 132px;
+    height: 132px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cs-pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(232,51,42,.16), transparent);
+    animation: cs-pulse 1.8s ease-out infinite;
+  }
+  .cs-arc {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #1f6feb, #36d6c8, #ffe14d, #ff7a1a, #e2382e, #1f6feb);
+    -webkit-mask: radial-gradient(closest-side, transparent 71%, #000 72%);
+            mask: radial-gradient(closest-side, transparent 71%, #000 72%);
+    animation: cs-spin 1.4s linear infinite;
+  }
+  .cs-temp {
+    position: relative;
+    font-variant-numeric: tabular-nums;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 1;
+    color: #f5f7fa;
+    animation: cs-count 1.4s ease-in-out infinite;
+  }
+  .cs-label {
+    font-size: 11px;
+    letter-spacing: .26em;
+    color: #5f6772;
+    text-align: center;
+  }
+  @keyframes cs-spin { to { transform: rotate(360deg); } }
+  @keyframes cs-pulse {
+    0% { transform: scale(.85); opacity: .5; }
+    60% { transform: scale(1.25); opacity: 0; }
+    100% { transform: scale(1.25); opacity: 0; }
+  }
+  @keyframes cs-count {
+    0%, 100% { opacity: .55; }
+    50% { opacity: 1; }
+  }
 
   @media (max-width: 760px) {
     .page { padding: 16px 12px !important; }
@@ -63,7 +128,16 @@
 </style>
 </head>
 <body>
-<div class="page" style="min-height:100vh; box-sizing:border-box; padding:38px 42px; background:#070809; background-image:radial-gradient(1000px 540px at 50% 122%, rgba(232,51,42,.16), transparent 68%); font-family:'JetBrains Mono',monospace; color:#e6e9ee;">
+<div id="cs-loader">
+  <div class="cs-ring">
+    <div class="cs-pulse"></div>
+    <div class="cs-arc"></div>
+    <div class="cs-temp" id="cs-temp">28°</div>
+  </div>
+  <div class="cs-label">LECTURE DES CAPTEURS<span id="cs-dots"></span></div>
+</div>
+
+<div id="appContent" class="page" style="min-height:100vh; box-sizing:border-box; padding:38px 42px; background:#070809; background-image:radial-gradient(1000px 540px at 50% 122%, rgba(232,51,42,.16), transparent 68%); font-family:'JetBrains Mono',monospace; color:#e6e9ee; visibility:hidden;">
 
   <div style="max-width:1360px; margin:0 auto;">
 
@@ -235,25 +309,25 @@
               <line x1="655" y1="20" x2="655" y2="220" stroke="#11264a" stroke-width="1"/>
               <line x1="757.5" y1="20" x2="757.5" y2="220" stroke="#11264a" stroke-width="1"/>
               <line x1="860" y1="20" x2="860" y2="220" stroke="#11264a" stroke-width="1"/>
-              <text x="34" y="24" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">40</text>
-              <text x="34" y="160" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">25</text>
-              <text x="34" y="223" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">18</text>
+              <text x="34" y="24" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">40°</text>
+              <text x="34" y="160" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">25°</text>
+              <text x="34" y="223" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">18°</text>
               <polygon points="40,147.3 142.5,174.5 245,183.6 347.5,120 450,56.4 552.5,29.1 655,47.3 757.5,101.8 860,138.2 860,220 40,220" fill="url(#heatfill)"/>
               <polyline points="40,147.3 142.5,174.5 245,183.6 347.5,120 450,56.4 552.5,29.1 655,47.3 757.5,101.8 860,138.2" fill="none" stroke="#ff7a3c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
               <polyline points="40,165.5 142.5,183.6 245,192.7 347.5,138.2 450,83.6 552.5,56.4 655,74.5 757.5,120 860,147.3" fill="none" stroke="#e6e9ee" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-              <line x1="535.4" y1="14" x2="535.4" y2="226" stroke="#ffffff" stroke-width="1" stroke-dasharray="3 4" opacity="0.55"/>
-              <text x="535.4" y="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#aeb6c2" letter-spacing="1">MAINTENANT</text>
-              <circle cx="552.5" cy="56.4" r="9" fill="#ff7a1a" opacity="0.25"/>
-              <circle cx="552.5" cy="56.4" r="4.5" fill="#ffae5c" stroke="#0e1014" stroke-width="1.5"/>
-              <text x="40" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">00</text>
-              <text x="142.5" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">03</text>
-              <text x="245" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">06</text>
-              <text x="347.5" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">09</text>
-              <text x="450" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">12</text>
-              <text x="552.5" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#ff8a4c">15</text>
-              <text x="655" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">18</text>
-              <text x="757.5" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">21</text>
-              <text x="860" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">24</text>
+              <line id="nowLine" x1="535.4" y1="14" x2="535.4" y2="226" stroke="#ffffff" stroke-width="1" stroke-dasharray="3 4" opacity="0.55"/>
+              <text id="nowLabel" x="535.4" y="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#aeb6c2" letter-spacing="1">MAINTENANT</text>
+              <circle id="nowHalo" cx="552.5" cy="56.4" r="9" fill="#ff7a1a" opacity="0.25"/>
+              <circle id="nowDot" cx="552.5" cy="56.4" r="4.5" fill="#ffae5c" stroke="#0e1014" stroke-width="1.5"/>
+              <text x="40" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">00h</text>
+              <text x="142.5" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">03h</text>
+              <text x="245" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">06h</text>
+              <text x="347.5" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">09h</text>
+              <text x="450" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">12h</text>
+              <text x="552.5" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#ff8a4c">15h</text>
+              <text x="655" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">18h</text>
+              <text x="757.5" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">21h</text>
+              <text x="860" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">24h</text>
           </svg>
         </div>
 
@@ -266,10 +340,28 @@
   var AMBIENT = 36;
   var SCALE_MIN = -14, SCALE_MAX = 6;
   var zeroPct = ((0 - SCALE_MIN) / (SCALE_MAX - SCALE_MIN)) * 100;
+  var chartHours = [0, 3, 6, 9, 12, 15, 18, 21, 24];
+  var feltSeries = [26, 23, 22, 28, 35, 38, 36, 30, 27];
+  var realSeries = [24, 22, 21, 26, 32, 35, 33, 28, 25];
+  var loaderStartedAt = Date.now();
+  var loaderTemp = 28;
+  var loaderHidden = false;
+  var tempEl = document.getElementById('cs-temp');
+  var dotsEl = document.getElementById('cs-dots');
+  var tempTimer = setInterval(function () {
+    loaderTemp = loaderTemp >= 36 ? 28 : loaderTemp + 1;
+    if (tempEl) tempEl.textContent = loaderTemp + '\u00b0';
+  }, 175);
+  var dotsCount = 0;
+  var dotsTimer = setInterval(function () {
+    dotsCount = (dotsCount + 1) % 4;
+    if (dotsEl) dotsEl.textContent = '.'.repeat(dotsCount);
+  }, 400);
 
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
   function fmtDelta(d) { var r = Math.round(d); return (r > 0 ? '+' : '') + r + '°'; }
   function fmtTemp(d) { return Math.round(AMBIENT + d) + '°C'; }
+  function fmtHour(n) { return String(Math.floor(n)).padStart(2, '0') + 'h'; }
   function hasMeaningfulName(name) {
     var n = String(name || '').trim();
     if (n.length < 2) return false;
@@ -308,6 +400,88 @@
 
   function normalizeText(s) {
     return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+  }
+
+  function setLoadingState(isLoading, message) {
+    var loader = document.getElementById('cs-loader');
+    var app = document.getElementById('appContent');
+    var copy = loader ? loader.querySelector('.cs-label') : null;
+    if (copy && message) {
+      copy.textContent = message;
+      if (dotsEl && copy.contains(dotsEl) === false && isLoading) {
+        copy.appendChild(dotsEl);
+      }
+    }
+    if (!loader || !app) return;
+    if (isLoading) {
+      loader.classList.remove('hide');
+      app.style.visibility = 'hidden';
+      return;
+    }
+    if (loaderHidden) {
+      app.style.visibility = 'visible';
+      return;
+    }
+    loaderHidden = true;
+    var wait = Math.max(0, 900 - (Date.now() - loaderStartedAt));
+    setTimeout(function () {
+      clearInterval(tempTimer);
+      clearInterval(dotsTimer);
+      loader.classList.add('hide');
+      app.style.visibility = 'visible';
+      setTimeout(function () {
+        if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
+      }, 520);
+    }, wait);
+  }
+
+  function interpolateSeries(hour, series) {
+    var h = clamp(hour, chartHours[0], chartHours[chartHours.length - 1]);
+    for (var i = 0; i < chartHours.length - 1; i += 1) {
+      var left = chartHours[i];
+      var right = chartHours[i + 1];
+      if (h >= left && h <= right) {
+        var ratio = right === left ? 0 : (h - left) / (right - left);
+        return series[i] + (series[i + 1] - series[i]) * ratio;
+      }
+    }
+    return series[series.length - 1];
+  }
+
+  function chartX(hour) {
+    return 40 + (clamp(hour, 0, 24) / 24) * (860 - 40);
+  }
+
+  function chartY(temp) {
+    return 220 - ((temp - 18) / (40 - 18)) * (220 - 20);
+  }
+
+  function renderNowMarker() {
+    var now = new Date();
+    var hour = now.getHours() + (now.getMinutes() / 60);
+    var x = chartX(hour);
+    var y = chartY(interpolateSeries(hour, feltSeries));
+    var label = document.getElementById('nowLabel');
+    var line = document.getElementById('nowLine');
+    var halo = document.getElementById('nowHalo');
+    var dot = document.getElementById('nowDot');
+
+    if (label) {
+      label.setAttribute('x', x);
+      label.textContent = 'MAINTENANT · ' + fmtHour(now.getHours()) + String(now.getMinutes()).padStart(2, '0');
+    }
+    if (line) {
+      line.setAttribute('x1', x);
+      line.setAttribute('x2', x);
+    }
+    if (halo) {
+      halo.setAttribute('cx', x);
+      halo.setAttribute('cy', y);
+    }
+    if (dot) {
+      dot.setAttribute('cx', x);
+      dot.setAttribute('cy', y);
+    }
   }
 
   // Continuous Δ°C derived from cool_score so every spot ranks distinctly.
@@ -428,6 +602,8 @@
       return spot.name && typeof spot.deltaTempC === 'number';
     });
   }
+
+  renderNowMarker();
 
   fetch('coolspots-data.json')
     .then(function (r) { return r.json(); })
@@ -554,9 +730,11 @@
 
       setActiveCategoryButton();
       renderAll();
+      setLoadingState(false);
     })
     .catch(function (err) {
       console.error('Impossible de charger coolspots-data.json', err);
+      setLoadingState(true, 'IMPOSSIBLE DE CHARGER LES COOLSPOTS');
     });
 })();
 </script>
