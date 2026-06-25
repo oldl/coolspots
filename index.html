@@ -483,11 +483,11 @@
         '<div style="position:relative;">' +
           '<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:22px;">' +
             '<div>' +
-              '<div style="font-size:10px; letter-spacing:0.18em; color:#8b93a0;">IRM · ÉVÉNEMENTS REMARQUABLES</div>' +
+              '<div style="font-size:10px; letter-spacing:0.18em; color:#8b93a0;">IRM</div>' +
               '<div style="margin-top:10px; font-family:\'Space Grotesk\',sans-serif; font-weight:700; font-size:30px; line-height:1; letter-spacing:-0.03em; color:#f5f7fa;">Un siècle de canicules</div>' +
-              '<div style="margin-top:9px; max-width:620px; font-size:13px; line-height:1.6; color:#aeb6c2;">Une lecture rapide des épisodes les plus marquants relevés par l\'IRM, de 1911 à 2013, avec ouverture en plein écran pour la frise complète.</div>' +
+              '<div style="margin-top:9px; max-width:620px; font-size:13px; line-height:1.6; color:#aeb6c2;">Une lecture rapide des épisodes les plus marquants relevés par l\'IRM, de 1911 à 2013.</div>' +
             '</div>' +
-            '<button type="button" id="openHeatTimelineModal" class="heat-widget-button" style="display:inline-flex; align-items:center; gap:10px; padding:11px 14px; border-radius:10px; background:linear-gradient(100deg,#ff6a2b,#e2382e); color:#fff; font-family:\'JetBrains Mono\',monospace; font-size:10.5px; font-weight:700; letter-spacing:0.08em;">OUVRIR LA FRISE <span style="font-size:12px;">↗</span></button>' +
+            '<button type="button" id="openHeatTimelineModal" class="heat-widget-button" style="display:inline-flex; align-items:center; gap:10px; padding:11px 14px; border-radius:10px; background:linear-gradient(100deg,#ff6a2b,#e2382e); color:#fff; font-family:\'JetBrains Mono\',monospace; font-size:10.5px; font-weight:700; letter-spacing:0.08em;">OUVRIR LA TIMELINE <span style="font-size:12px;">↗</span></button>' +
           '</div>' +
           '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-bottom:18px;">' +
             items.map(function (item) {
@@ -503,8 +503,7 @@
               );
             }).join('') +
           '</div>' +
-          '<div style="display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; padding-top:16px; border-top:1px solid #1d2128;">' +
-            '<div style="font-size:11px; line-height:1.6; color:#6c7480;">La liste fournie par l\'IRM s\'arrête ici en 2013 dans cette version de la frise. Les étés 2019, 2020 ou 2022 peuvent être ajoutés ensuite dans une seconde passe.</div>' +
+          '<div style="display:flex; justify-content:flex-end; padding-top:16px; border-top:1px solid #1d2128;">' +
             '<a href="https://www.meteo.be/fr/climat/climat-de-la-belgique/evenements-remarquables-depuis-1901/evenements-remarquables/evenements/canicule" target="_blank" rel="noopener noreferrer" style="font-size:11px; color:#ff8a4c; text-decoration:none; border-bottom:1px solid rgba(255,138,76,.35);">Source IRM ↗</a>' +
           '</div>' +
         '</div>' +
@@ -519,11 +518,11 @@
       '<div style="padding:24px 24px 22px;">' +
         '<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:18px; margin-bottom:24px;">' +
           '<div>' +
-            '<div style="font-size:11px; letter-spacing:0.26em; color:#8b93a0;">IRM · ÉVÉNEMENTS REMARQUABLES</div>' +
+            '<div style="font-size:11px; letter-spacing:0.26em; color:#8b93a0;">IRM</div>' +
             '<h2 id="heatTimelineModalTitle" style="margin:10px 0 0; font-family:\'Space Grotesk\',sans-serif; font-weight:700; font-size:44px; line-height:0.98; letter-spacing:-0.03em; color:#f5f7fa;">Un siècle de<br>canicules.</h2>' +
             '<p style="margin:18px 0 0; font-size:14px; line-height:1.6; color:#aeb6c2; max-width:620px;">Les vagues de chaleur les plus marquantes relevées en Belgique, de la première journée à 39,5° en 1911 jusqu\'aux étés à répétition des années 2010. <span style="color:#6c7480;">Source : IRM — événements remarquables depuis 1901.</span></p>' +
           '</div>' +
-          '<button type="button" id="closeHeatTimelineModal" class="heat-widget-button" aria-label="Fermer la frise" style="width:42px; height:42px; border-radius:999px; background:#111419; color:#dfe3e9; font-size:18px; border:1px solid #23272f;">×</button>' +
+          '<button type="button" id="closeHeatTimelineModal" class="heat-widget-button" aria-label="Fermer la timeline" style="width:42px; height:42px; border-radius:999px; background:#111419; color:#dfe3e9; font-size:18px; border:1px solid #23272f;">×</button>' +
         '</div>' +
         '<div style="display:flex; align-items:center; gap:18px; margin:0 0 42px; flex-wrap:wrap;">' +
           '<span style="font-size:10px; letter-spacing:0.14em; color:#5f6772;">PIC MESURÉ</span>' +
