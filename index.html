@@ -29,6 +29,42 @@
     border-bottom-color: #36d6c8;
     text-shadow: 0 0 10px rgba(54, 214, 200, 0.22);
   }
+  .heat-widget-button {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+  }
+  .heat-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(4, 5, 7, 0.82);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+  }
+  .heat-modal-backdrop.is-open { display: flex; }
+  .heat-modal-panel {
+    width: min(980px, 100%);
+    max-height: min(88vh, 980px);
+    overflow: hidden;
+    border: 1px solid #1d2128;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #101216, #090b0f);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.46);
+  }
+  .heat-modal-scroll {
+    max-height: min(88vh, 980px);
+    overflow-y: auto;
+  }
+  .heat-modal-scroll::-webkit-scrollbar { width: 8px; }
+  .heat-modal-scroll::-webkit-scrollbar-thumb { background: #2a3038; border-radius: 999px; }
+  .heat-modal-scroll::-webkit-scrollbar-track { background: transparent; }
+  .heat-timeline-item:last-child .heat-timeline-line {
+    background: linear-gradient(#1d2128, transparent);
+  }
   #cs-loader {
     min-height: 520px;
     border-radius: 10px;
@@ -101,6 +137,8 @@
     .topbar-controls { flex-wrap: wrap !important; }
     .mainGrid { grid-template-columns: 1fr !important; }
     .splitGrid { grid-template-columns: 1fr !important; }
+    .heat-modal-backdrop { padding: 10px !important; }
+    .heat-modal-panel { max-height: 94vh !important; border-radius: 14px !important; }
     #categoryFilter { flex-wrap: wrap !important; }
     #fullListHeader > div:nth-child(2), #fullListHeader > div:nth-child(3),
     #fullSpotsList > div > div:nth-child(2), #fullSpotsList > div > div:nth-child(3) { display: none !important; }
@@ -333,6 +371,18 @@
       </div>
     </div>
   </div>
+
+  <div style="margin-top:16px;">
+    <div id="heatTimelineWidget"></div>
+  </div>
+</div>
+
+<div id="heatTimelineModal" class="heat-modal-backdrop" aria-hidden="true">
+  <div class="heat-modal-panel" role="dialog" aria-modal="true" aria-labelledby="heatTimelineModalTitle">
+    <div class="heat-modal-scroll">
+      <div id="heatTimelineModalContent"></div>
+    </div>
+  </div>
 </div>
 <script>
 (function () {
@@ -345,6 +395,21 @@
   var loaderStartedAt = Date.now();
   var loaderTemp = 28;
   var loaderHidden = false;
+  var heatTimeline = [
+    { year: 1911, peak: '39,5°', peakColor: '#e8332a', title: 'Saint-Josse suffoque', copy: 'Le 28 juillet, le mercure grimpe à 39,5°C à la station urbaine de Saint-Josse-ten-Noode. L\'IRM la décrit comme l\'une des journées les plus chaudes du siècle.' },
+    { year: 1921, peak: '40,0°', peakColor: '#e8332a', title: 'La barre des 40°', copy: 'Le 11 juillet, 40,0°C sont relevés à Saint-Josse, la première fois que ce seuil symbolique est atteint dans la région bruxelloise.' },
+    { year: 1947, peak: '38,8°', peakColor: '#ff5a1f', title: 'Record absolu à Uccle', copy: 'Le 27 juin, Uccle enregistre 38,8°C et une nuit à 21,6°C. C\'est la température la plus élevée du siècle mesurée à la station de référence.' },
+    { year: 1952, peak: '37,1°', peakColor: '#ff7a1a', title: 'Record de juillet', copy: 'Le 6 juillet, Uccle atteint 37,1°C. Plus de 70 ans plus tard, cela reste la valeur de juillet la plus élevée jamais mesurée à la station.' },
+    { year: 1976, peak: '36,7°', peakColor: '#ff7a1a', title: 'Seize jours de fournaise', copy: 'Du 22 juin au 8 juillet, Uccle dépasse 30°C seize jours d\'affilée. Avec 19,2°C de moyenne, c\'est l\'été le plus chaud du siècle.' },
+    { year: 1994, peak: '37,4°', peakColor: '#ff5a1f', title: 'Le mois le plus chaud du siècle', copy: 'Juillet affiche 21,8°C de moyenne à Uccle, bien au-dessus de la normale 17,0°C. C\'est alors le mois le plus chaud du siècle.' },
+    { year: 2003, peak: '38,6°', peakColor: '#e8332a', title: 'La canicule européenne', copy: 'Du 31 juillet au 13 août, la chaleur s\'installe. 38,6°C sont relevés à Aubange et 33,6°C au Mont-Rigi, un record pour les Hautes-Fagnes.' },
+    { year: 2006, peak: '36,2°', peakColor: '#ff7a1a', title: 'Juillet sans répit', copy: 'Une vague tient du 15 au 30 juillet à Uccle, qui grimpe à 36,2°C. Partout au pays, les 30°C sont dépassés.' },
+    { year: 2009, peak: '38,2°', peakColor: '#ff5a1f', title: 'L\'est en surchauffe', copy: 'Le 20 août, la chaleur se concentre sur l\'est: 38,2°C à Kleine-Brogel, 37,6°C à Koersel et 36,6°C à Huy.' },
+    { year: 2010, peak: '37,4°', peakColor: '#ff5a1f', title: 'Deux vagues en juillet', copy: 'Début et mi-juillet, deux pics jumeaux à 37,4°C à Kleine-Brogel. En région liégeoise, la nuit ne descend pas sous 22,4°C.' },
+    { year: 2011, peak: '36,4°', peakColor: '#ff7a1a', title: 'Fin juin brûlant', copy: 'Le 28 juin, après une nuit au-dessus de 20°C, les maxima bondissent jusqu\'à 36,4°C à Lanaken et 34,2°C à Uccle.' },
+    { year: 2013, peak: '37,3°', peakColor: '#ff7a1a', title: 'Vague de fin juillet', copy: 'Du 21 au 27 juillet, une vague de chaleur touche Uccle; le 2 août, Koersel monte à 37,3°C. Septembre reste estival.' }
+  ];
+  var heatHighlights = [1911, 1976, 2003, 2013];
   var tempEl = document.getElementById('cs-temp');
   var dotsEl = document.getElementById('cs-dots');
   var tempTimer = setInterval(function () {
@@ -370,6 +435,145 @@
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function colorWithAlpha(hex, alpha) {
+    var value = String(hex || '').replace('#', '');
+    if (value.length !== 6) return 'rgba(255,255,255,' + alpha + ')';
+    var r = parseInt(value.slice(0, 2), 16);
+    var g = parseInt(value.slice(2, 4), 16);
+    var b = parseInt(value.slice(4, 6), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+  }
+
+  function buildHeatTimelineItems(items, compact) {
+    return items.map(function (item, index) {
+      var isLast = index === items.length - 1;
+      return (
+        '<div class="heat-timeline-item" style="display:flex; gap:20px;">' +
+          '<div style="flex:none; width:' + (compact ? '76px' : '104px') + '; text-align:right; padding-top:1px;">' +
+            '<div style="font-family:\'Space Grotesk\',sans-serif; font-weight:700; font-size:' + (compact ? '24px' : '30px') + '; line-height:1; color:#f5f7fa;">' + item.year + '</div>' +
+            '<div style="display:inline-block; margin-top:8px; font-size:12px; font-weight:600; color:' + item.peakColor + '; border:1px solid ' + colorWithAlpha(item.peakColor, 0.35) + '; border-radius:5px; padding:3px 7px;">' + escapeHtml(item.peak) + '</div>' +
+          '</div>' +
+          '<div style="flex:none; width:16px; display:flex; flex-direction:column; align-items:center;">' +
+            '<div style="width:14px; height:14px; border-radius:50%; background:' + item.peakColor + '; box-shadow:0 0 12px ' + item.peakColor + '; margin-top:5px;"></div>' +
+            '<div class="heat-timeline-line" style="flex:1; width:2px; background:' + (isLast ? 'linear-gradient(#1d2128, transparent)' : '#1d2128') + '; margin-top:6px;"></div>' +
+          '</div>' +
+          '<div style="flex:1; padding-bottom:' + (compact ? '22px' : '34px') + ';">' +
+            '<div style="font-family:\'Space Grotesk\',sans-serif; font-weight:600; font-size:' + (compact ? '15px' : '17px') + '; color:#f1f3f6; margin-bottom:5px;">' + escapeHtml(item.title) + '</div>' +
+            '<div style="font-size:' + (compact ? '12px' : '13px') + '; line-height:1.6; color:#9aa2ae;">' + escapeHtml(item.copy) + '</div>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  function renderHeatTimelineWidget() {
+    var mount = document.getElementById('heatTimelineWidget');
+    if (!mount) return;
+
+    var items = heatTimeline.filter(function (item) {
+      return heatHighlights.indexOf(item.year) !== -1;
+    });
+
+    mount.innerHTML =
+      '<div style="position:relative; overflow:hidden; background:linear-gradient(135deg,#120d0c,#0c0f13 56%,#11151b); border:1px solid #1d2128; border-radius:16px; padding:22px;">' +
+        '<div style="position:absolute; inset:0; background:radial-gradient(420px 220px at 92% 8%, rgba(232,51,42,.16), transparent 68%), radial-gradient(360px 180px at 0% 100%, rgba(255,172,46,.09), transparent 70%);"></div>' +
+        '<div style="position:relative;">' +
+          '<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:22px;">' +
+            '<div>' +
+              '<div style="font-size:10px; letter-spacing:0.18em; color:#8b93a0;">IRM · ÉVÉNEMENTS REMARQUABLES</div>' +
+              '<div style="margin-top:10px; font-family:\'Space Grotesk\',sans-serif; font-weight:700; font-size:30px; line-height:1; letter-spacing:-0.03em; color:#f5f7fa;">Un siècle de canicules</div>' +
+              '<div style="margin-top:9px; max-width:620px; font-size:13px; line-height:1.6; color:#aeb6c2;">Une lecture rapide des épisodes les plus marquants relevés par l\'IRM, de 1911 à 2013, avec ouverture en plein écran pour la frise complète.</div>' +
+            '</div>' +
+            '<button type="button" id="openHeatTimelineModal" class="heat-widget-button" style="display:inline-flex; align-items:center; gap:10px; padding:11px 14px; border-radius:10px; background:linear-gradient(100deg,#ff6a2b,#e2382e); color:#fff; font-family:\'JetBrains Mono\',monospace; font-size:10.5px; font-weight:700; letter-spacing:0.08em;">OUVRIR LA FRISE <span style="font-size:12px;">↗</span></button>' +
+          '</div>' +
+          '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-bottom:18px;">' +
+            items.map(function (item) {
+              return (
+                '<div style="background:rgba(12,14,18,.84); border:1px solid #1c2027; border-radius:12px; padding:14px 15px;">' +
+                  '<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">' +
+                    '<div style="font-family:\'Space Grotesk\',sans-serif; font-weight:700; font-size:24px; color:#f5f7fa;">' + item.year + '</div>' +
+                    '<div style="font-size:11px; font-weight:700; color:' + item.peakColor + '; border:1px solid rgba(255,255,255,.12); border-radius:999px; padding:5px 8px;">' + escapeHtml(item.peak) + '</div>' +
+                  '</div>' +
+                  '<div style="margin-top:10px; font-family:\'Space Grotesk\',sans-serif; font-weight:600; font-size:15px; color:#f1f3f6;">' + escapeHtml(item.title) + '</div>' +
+                  '<div style="margin-top:7px; font-size:12px; line-height:1.55; color:#8f97a4;">' + escapeHtml(item.copy) + '</div>' +
+                '</div>'
+              );
+            }).join('') +
+          '</div>' +
+          '<div style="display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; padding-top:16px; border-top:1px solid #1d2128;">' +
+            '<div style="font-size:11px; line-height:1.6; color:#6c7480;">La liste fournie par l\'IRM s\'arrête ici en 2013 dans cette version de la frise. Les étés 2019, 2020 ou 2022 peuvent être ajoutés ensuite dans une seconde passe.</div>' +
+            '<a href="https://www.meteo.be/fr/climat/climat-de-la-belgique/evenements-remarquables-depuis-1901/evenements-remarquables/evenements/canicule" target="_blank" rel="noopener noreferrer" style="font-size:11px; color:#ff8a4c; text-decoration:none; border-bottom:1px solid rgba(255,138,76,.35);">Source IRM ↗</a>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderHeatTimelineModal() {
+    var mount = document.getElementById('heatTimelineModalContent');
+    if (!mount) return;
+
+    mount.innerHTML =
+      '<div style="padding:24px 24px 22px;">' +
+        '<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:18px; margin-bottom:24px;">' +
+          '<div>' +
+            '<div style="font-size:11px; letter-spacing:0.26em; color:#8b93a0;">IRM · ÉVÉNEMENTS REMARQUABLES</div>' +
+            '<h2 id="heatTimelineModalTitle" style="margin:10px 0 0; font-family:\'Space Grotesk\',sans-serif; font-weight:700; font-size:44px; line-height:0.98; letter-spacing:-0.03em; color:#f5f7fa;">Un siècle de<br>canicules.</h2>' +
+            '<p style="margin:18px 0 0; font-size:14px; line-height:1.6; color:#aeb6c2; max-width:620px;">Les vagues de chaleur les plus marquantes relevées en Belgique, de la première journée à 39,5° en 1911 jusqu\'aux étés à répétition des années 2010. <span style="color:#6c7480;">Source : IRM — événements remarquables depuis 1901.</span></p>' +
+          '</div>' +
+          '<button type="button" id="closeHeatTimelineModal" class="heat-widget-button" aria-label="Fermer la frise" style="width:42px; height:42px; border-radius:999px; background:#111419; color:#dfe3e9; font-size:18px; border:1px solid #23272f;">×</button>' +
+        '</div>' +
+        '<div style="display:flex; align-items:center; gap:18px; margin:0 0 42px; flex-wrap:wrap;">' +
+          '<span style="font-size:10px; letter-spacing:0.14em; color:#5f6772;">PIC MESURÉ</span>' +
+          '<span style="display:flex; align-items:center; gap:7px; font-size:10px; letter-spacing:0.06em; color:#8b93a0;"><span style="width:9px; height:9px; border-radius:50%; background:#ffac2e;"></span>34–35°</span>' +
+          '<span style="display:flex; align-items:center; gap:7px; font-size:10px; letter-spacing:0.06em; color:#8b93a0;"><span style="width:9px; height:9px; border-radius:50%; background:#ff7a1a;"></span>36–37°</span>' +
+          '<span style="display:flex; align-items:center; gap:7px; font-size:10px; letter-spacing:0.06em; color:#8b93a0;"><span style="width:9px; height:9px; border-radius:50%; background:#ff5a1f;"></span>37–38°</span>' +
+          '<span style="display:flex; align-items:center; gap:7px; font-size:10px; letter-spacing:0.06em; color:#8b93a0;"><span style="width:9px; height:9px; border-radius:50%; background:#e8332a; box-shadow:0 0 8px rgba(232,51,42,.7);"></span>≥39°</span>' +
+        '</div>' +
+        buildHeatTimelineItems(heatTimeline, false) +
+        '<div style="margin-top:8px; padding:16px 18px; border:1px solid #1a1d24; border-radius:10px; background:#0c0e12; font-size:11.5px; line-height:1.6; color:#6c7480;">La liste « événements remarquables » de l\'IRM s\'arrête en 2013. Les étés-records suivants — 2019, 2020, 2022 — peuvent être ajoutés ensuite depuis d\'autres séries de l\'institut.</div>' +
+        '<div style="margin-top:18px; display:flex; align-items:center; gap:9px; font-size:11.5px; letter-spacing:0.04em; color:#6c7480;">' +
+          '<span>Source</span>' +
+          '<a href="https://www.meteo.be/fr/climat/climat-de-la-belgique/evenements-remarquables-depuis-1901/evenements-remarquables/evenements/canicule" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:6px; color:#ff8a4c; text-decoration:none; border-bottom:1px solid rgba(255,138,76,.35); padding-bottom:1px;">IRM — Événements remarquables depuis 1901 · Canicule <span style="font-size:10px;">↗</span></a>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function setHeatModalOpen(isOpen) {
+    var modal = document.getElementById('heatTimelineModal');
+    if (!modal) return;
+    modal.classList.toggle('is-open', isOpen);
+    modal.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
+
+  function bindHeatTimelineInteractions() {
+    var modal = document.getElementById('heatTimelineModal');
+    var openBtn = document.getElementById('openHeatTimelineModal');
+    var closeBtn = document.getElementById('closeHeatTimelineModal');
+
+    if (openBtn) {
+      openBtn.addEventListener('click', function () {
+        setHeatModalOpen(true);
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        setHeatModalOpen(false);
+      });
+    }
+
+    if (modal) {
+      modal.addEventListener('click', function (event) {
+        if (event.target === modal) setHeatModalOpen(false);
+      });
+    }
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') setHeatModalOpen(false);
     });
   }
 
@@ -606,6 +810,9 @@
   }
 
   renderNowMarker();
+  renderHeatTimelineWidget();
+  renderHeatTimelineModal();
+  bindHeatTimelineInteractions();
 
   fetch('coolspots-data.json')
     .then(function (r) { return r.json(); })
