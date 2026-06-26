@@ -29,10 +29,41 @@
     border-bottom-color: #36d6c8;
     text-shadow: 0 0 10px rgba(54, 214, 200, 0.22);
   }
+  .trilogy-pill {
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, filter 180ms ease;
+  }
+  .trilogy-pill:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.06);
+  }
+  .trilogy-pill--sun:hover {
+    border-color: #4c3f25 !important;
+    box-shadow: 0 10px 22px rgba(255, 172, 46, 0.16);
+  }
+  .trilogy-pill--tree:hover {
+    border-color: #284434 !important;
+    box-shadow: 0 10px 22px rgba(54, 214, 138, 0.16);
+  }
   .heat-widget-button {
     appearance: none;
     border: none;
     cursor: pointer;
+  }
+  button {
+    transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease, border-color 180ms ease;
+  }
+  button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+  }
+  #categoryFilter button:hover,
+  #closeHeatTimelineModal:hover {
+    filter: brightness(1.14);
+    border-color: #39404b !important;
+  }
+  #openHeatTimelineModal:hover {
+    filter: brightness(1.06) saturate(1.08);
+    box-shadow: 0 14px 30px rgba(226, 56, 46, 0.34);
   }
   .heat-modal-backdrop {
     position: fixed;
@@ -64,6 +95,14 @@
   .heat-modal-scroll::-webkit-scrollbar-track { background: transparent; }
   .heat-timeline-item:last-child .heat-timeline-line {
     background: linear-gradient(#1d2128, transparent);
+  }
+  .heat-peaks-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .heat-peaks-grid > div {
+    min-width: 0;
   }
   #cs-loader {
     min-height: 520px;
@@ -139,6 +178,7 @@
     .splitGrid { grid-template-columns: 1fr !important; }
     .heat-modal-backdrop { padding: 10px !important; }
     .heat-modal-panel { max-height: 94vh !important; border-radius: 14px !important; }
+    .heat-peaks-grid { grid-template-columns: 1fr 1fr !important; }
     #categoryFilter { flex-wrap: wrap !important; }
     #fullListHeader > div:nth-child(2), #fullListHeader > div:nth-child(3),
     #fullSpotsList > div > div:nth-child(2), #fullSpotsList > div > div:nth-child(3) { display: none !important; }
@@ -171,12 +211,20 @@
   <div style="max-width:1360px; margin:0 auto;">
 
     <div class="topbar" style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:22px;">
-      <div style="display:flex; flex-direction:column; gap:7px;">
+      <div style="display:flex; flex-direction:column; gap:10px;">
         <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:27px; letter-spacing:-0.01em; line-height:1; color:#f1f3f6;">COOL<span style="color:#ff6a2b;">SPOTS</span></div>
-        <div style="font-size:10.5px; letter-spacing:0.2em; color:#5f6772;">CANICULE&nbsp;//&nbsp;TABLEAU DE BORD THERMIQUE&nbsp;//&nbsp;BRUXELLES</div>
-        <div style="font-size:10px; letter-spacing:0.14em; color:#7f8793;">
-          <a href="https://www.linkedin.com/in/olivier-de-locht/" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none; border-bottom:1px dotted rgba(127,135,147,.55);">with 🩷 by ol dl</a>
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+          <a href="https://www.linkedin.com/in/olivier-de-locht/" target="_blank" rel="noopener noreferrer" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.04em; color:#6c7480; text-decoration:none; white-space:nowrap;">with <span style="color:#ff5ea8;">🩷</span> by ol dl</a>
+          <span style="width:1px; height:13px; background:#23272f;"></span>
+          <span style="font-size:9px; letter-spacing:0.18em; color:#454c57; white-space:nowrap;">TRILOGIE</span>
+          <a href="https://sunspots.be" target="_blank" rel="noopener noreferrer" class="trilogy-pill trilogy-pill--sun" style="display:inline-flex; align-items:center; gap:6px; text-decoration:none; border:1px solid #2a2620; border-radius:20px; padding:4px 10px 4px 8px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.06em; color:#caa86a;">
+            <span style="width:7px; height:7px; border-radius:50%; background:#ffce4d; box-shadow:0 0 7px rgba(255,206,77,.7); flex:none;"></span>Sunspots
+          </a>
+          <a href="https://mini.appvelvet.com/treespots/" target="_blank" rel="noopener noreferrer" class="trilogy-pill trilogy-pill--tree" style="display:inline-flex; align-items:center; gap:6px; text-decoration:none; border:1px solid #1d2a22; border-radius:20px; padding:4px 10px 4px 8px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.06em; color:#6cc28f;">
+            <span style="width:7px; height:7px; border-radius:50%; background:#36d68a; box-shadow:0 0 7px rgba(54,214,138,.7); flex:none;"></span>Treespots
+          </a>
         </div>
+        <div style="font-size:10.5px; letter-spacing:0.2em; color:#5f6772;">CANICULE&nbsp;//&nbsp;TABLEAU DE BORD THERMIQUE&nbsp;//&nbsp;BRUXELLES</div>
       </div>
       <div class="topbar-controls" style="display:flex; align-items:center; gap:10px;">
         <div style="display:flex; align-items:center; gap:8px; border:1px solid #23272f; border-radius:7px; padding:7px 8px 7px 12px;">
@@ -368,6 +416,8 @@
           </svg>
         </div>
 
+        <div id="heatPeaksWidget"></div>
+
       </div>
     </div>
   </div>
@@ -381,6 +431,13 @@
   <div class="heat-modal-panel" role="dialog" aria-modal="true" aria-labelledby="heatTimelineModalTitle">
     <div class="heat-modal-scroll">
       <div id="heatTimelineModalContent"></div>
+    </div>
+  </div>
+</div>
+<div id="heatPeaksModal" class="heat-modal-backdrop" aria-hidden="true">
+  <div class="heat-modal-panel" role="dialog" aria-modal="true" aria-labelledby="heatPeaksModalTitle">
+    <div class="heat-modal-scroll">
+      <div id="heatPeaksModalContent"></div>
     </div>
   </div>
 </div>
@@ -410,6 +467,22 @@
     { year: 2013, peak: '37,3°', peakColor: '#ff7a1a', title: 'Vague de fin juillet', copy: 'Du 21 au 27 juillet, une vague de chaleur touche Uccle; le 2 août, Koersel monte à 37,3°C. Septembre reste estival.' }
   ];
   var heatHighlights = [1911, 1976, 2003, 2013];
+  var heatPeaksMeta = {
+    title: 'PICS DE TEMPÉRATURE · CANICULE',
+    trendLabel: '▲ +0,86°/DÉCENNIE',
+    sourceLabel: 'Uccle · IRM / Copernicus · maxima estivaux annuels · 1950 → 2024',
+    recordLabel: 'RECORD 2019 · 39,7°C',
+    latestLabel: '2022 · 38,1°C'
+  };
+  var heatPeakHighlights = [
+    { year: 1950, value: 31.0, label: 'point de départ', color: '#46b3a6' },
+    { year: 1976, value: 36.7, label: 'été charnière', color: '#ff7a1a' },
+    { year: 1994, value: 37.4, label: 'juillet record', color: '#ff5a1f' },
+    { year: 2003, value: 38.6, label: 'canicule européenne', color: '#ff5a1f' },
+    { year: 2019, value: 39.7, label: 'record absolu', color: '#e8332a' },
+    { year: 2022, value: 38.1, label: 'nouvelle pointe', color: '#ff5a1f' },
+    { year: 2024, value: 35.4, label: 'dernier repère exporté', color: '#ff7a1a' }
+  ];
   var tempEl = document.getElementById('cs-temp');
   var dotsEl = document.getElementById('cs-dots');
   var tempTimer = setInterval(function () {
@@ -467,6 +540,194 @@
         '</div>'
       );
     }).join('');
+  }
+
+  function peakColorForValue(value) {
+    if (value >= 39) return '#e8332a';
+    if (value >= 37) return '#ff5a1f';
+    if (value >= 35) return '#ff7a1a';
+    if (value >= 33) return '#ffac2e';
+    if (value >= 31) return '#ffe14d';
+    return '#46b3a6';
+  }
+
+  function buildHeatPeaksSvg(width, height, annotate) {
+    var minValue = 30;
+    var maxValue = 40;
+    var left = 42;
+    var right = width - 18;
+    var top = 18;
+    var bottom = height - 34;
+    var innerW = right - left;
+    var innerH = bottom - top;
+    var years = heatPeakHighlights.map(function (item) { return item.year; });
+    var minYear = Math.min.apply(null, years);
+    var maxYear = Math.max.apply(null, years);
+
+    function xForYear(year) {
+      return left + ((year - minYear) / (maxYear - minYear)) * innerW;
+    }
+
+    function yForValue(value) {
+      return bottom - ((value - minValue) / (maxValue - minValue)) * innerH;
+    }
+
+    var grid = [30, 35, 40].map(function (value) {
+      var y = yForValue(value);
+      return '<line x1="' + left + '" y1="' + y + '" x2="' + right + '" y2="' + y + '" stroke="#13202d" stroke-width="1"/>' +
+        '<text x="' + (left - 8) + '" y="' + (y + 4) + '" text-anchor="end" font-family="\'JetBrains Mono\',monospace" font-size="10.5" fill="#5f6772">' + value + '°</text>';
+    }).join('');
+
+    var ticks = [1950, 1970, 1990, 2010, 2024].map(function (year, index) {
+      var x = xForYear(year);
+      var fill = index === 4 ? '#ff8a4c' : '#5f6772';
+      return '<text x="' + x + '" y="' + (height - 10) + '" text-anchor="middle" font-family="\'JetBrains Mono\',monospace" font-size="10.5" fill="' + fill + '">' + year + '</text>';
+    }).join('');
+
+    var polyline = '<polyline points="' + heatPeakHighlights.map(function (item) {
+      return xForYear(item.year) + ',' + yForValue(item.value);
+    }).join(' ') + '" fill="none" stroke="#ff8a4c" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" opacity="0.82"/>';
+
+    var points = heatPeakHighlights.map(function (item) {
+      var x = xForYear(item.year);
+      var y = yForValue(item.value);
+      return '<circle cx="' + x + '" cy="' + y + '" r="5.5" fill="' + peakColorForValue(item.value) + '" stroke="#0e1014" stroke-width="1.5"/>';
+    }).join('');
+
+    var labels = '';
+    if (annotate) {
+      var record = heatPeakHighlights.filter(function (item) { return item.year === 2019; })[0];
+      var latest = heatPeakHighlights.filter(function (item) { return item.year === 2022; })[0];
+      labels += '<line x1="' + xForYear(record.year) + '" y1="' + (yForValue(record.value) - 9) + '" x2="' + xForYear(record.year) + '" y2="6" stroke="#e8332a" stroke-width="1" stroke-dasharray="2 3" opacity="0.6"/>';
+      labels += '<text x="' + (xForYear(record.year) - 8) + '" y="11" text-anchor="end" font-family="\'JetBrains Mono\',monospace" font-size="9.5" letter-spacing="1" fill="#ff7a3c">' + heatPeaksMeta.recordLabel + '</text>';
+      labels += '<text x="' + (xForYear(latest.year) + 12) + '" y="' + (yForValue(latest.value) - 8) + '" text-anchor="start" font-family="\'JetBrains Mono\',monospace" font-size="9" letter-spacing="0.5" fill="#8b93a0">' + heatPeaksMeta.latestLabel + '</text>';
+    }
+
+    return '<svg viewBox="0 0 ' + width + ' ' + height + '" style="width:100%; height:auto; display:block;" preserveAspectRatio="xMidYMid meet">' +
+      '<defs><radialGradient id="heatPeaksGlow" cx="86%" cy="100%" r="55%"><stop offset="0" stop-color="#e8332a" stop-opacity="0.10"/><stop offset="1" stop-color="#e8332a" stop-opacity="0"/></radialGradient></defs>' +
+      '<rect x="' + left + '" y="' + top + '" width="' + innerW + '" height="' + innerH + '" fill="url(#heatPeaksGlow)"/>' +
+      grid + polyline + points + labels + ticks +
+    '</svg>';
+  }
+
+  function renderHeatPeaksWidget() {
+    var mount = document.getElementById('heatPeaksWidget');
+    if (!mount) return;
+
+    var topYears = [1976, 1994, 2003, 2019];
+    var cards = heatPeakHighlights.filter(function (item) {
+      return topYears.indexOf(item.year) !== -1;
+    }).map(function (item) {
+      return (
+        '<div style="background:rgba(12,14,18,.84); border:1px solid #1c2027; border-radius:12px; padding:14px 15px;">' +
+          '<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">' +
+            '<div style="font-family:\'Space Grotesk\',sans-serif; font-weight:700; font-size:24px; color:#f5f7fa;">' + item.year + '</div>' +
+            '<div style="font-size:11px; font-weight:700; color:' + item.color + '; border:1px solid rgba(255,255,255,.12); border-radius:999px; padding:5px 8px;">' + String(item.value).replace('.', ',') + '°</div>' +
+          '</div>' +
+          '<div style="margin-top:10px; font-family:\'Space Grotesk\',sans-serif; font-weight:600; font-size:15px; color:#f1f3f6;">' + item.label + '</div>' +
+        '</div>'
+      );
+    }).join('');
+
+    mount.innerHTML =
+      '<div style="position:relative; overflow:hidden; background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:20px 24px 16px;">' +
+        '<div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:4px;">' +
+          '<span style="font-size:11px; letter-spacing:0.16em; color:#aeb6c2;">' + heatPeaksMeta.title + '</span>' +
+          '<span style="font-size:10px; letter-spacing:0.1em; color:#ff7a3c;">' + heatPeaksMeta.trendLabel + '</span>' +
+        '</div>' +
+        '<div style="font-size:10px; color:#5f6772; margin-bottom:14px;">' + heatPeaksMeta.sourceLabel + '</div>' +
+        '<div style="display:flex; align-items:center; gap:16px; margin-bottom:8px; flex-wrap:wrap;">' +
+          '<span style="display:flex; align-items:center; gap:6px; font-size:9.5px; letter-spacing:0.08em; color:#8b93a0;"><span style="width:8px; height:8px; border-radius:50%; background:#46b3a6;"></span>&lt;31°</span>' +
+          '<span style="display:flex; align-items:center; gap:6px; font-size:9.5px; letter-spacing:0.08em; color:#8b93a0;"><span style="width:8px; height:8px; border-radius:50%; background:#ffe14d;"></span>31–32°</span>' +
+          '<span style="display:flex; align-items:center; gap:6px; font-size:9.5px; letter-spacing:0.08em; color:#8b93a0;"><span style="width:8px; height:8px; border-radius:50%; background:#ffac2e;"></span>33–34°</span>' +
+          '<span style="display:flex; align-items:center; gap:6px; font-size:9.5px; letter-spacing:0.08em; color:#8b93a0;"><span style="width:8px; height:8px; border-radius:50%; background:#ff7a1a;"></span>35–36°</span>' +
+          '<span style="display:flex; align-items:center; gap:6px; font-size:9.5px; letter-spacing:0.08em; color:#8b93a0;"><span style="width:8px; height:8px; border-radius:50%; background:#ff5a1f;"></span>37–38°</span>' +
+          '<span style="display:flex; align-items:center; gap:6px; font-size:9.5px; letter-spacing:0.08em; color:#8b93a0;"><span style="width:8px; height:8px; border-radius:50%; background:#e8332a; box-shadow:0 0 7px rgba(232,51,42,.7);"></span>≥39°</span>' +
+        '</div>' +
+        buildHeatPeaksSvg(880, 220, false) +
+        '<div class="heat-peaks-grid" style="margin-top:14px;">' + cards + '</div>' +
+        '<div style="display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; padding-top:16px; margin-top:16px; border-top:1px solid #1d2128;">' +
+          '<div style="font-size:11px; line-height:1.6; color:#6c7480;">Lecture climat rapide des pics estivaux à Uccle, avec un record absolu en 2019 et une hausse persistante sur les dernières décennies.</div>' +
+          '<button type="button" id="openHeatPeaksModal" class="heat-widget-button" style="display:inline-flex; align-items:center; gap:10px; padding:11px 14px; border-radius:10px; background:linear-gradient(100deg,#ff6a2b,#e2382e); color:#fff; font-family:\'JetBrains Mono\',monospace; font-size:10.5px; font-weight:700; letter-spacing:0.08em;">OUVRIR LE DÉTAIL <span style="font-size:12px;">↗</span></button>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderHeatPeaksModal() {
+    var mount = document.getElementById('heatPeaksModalContent');
+    if (!mount) return;
+
+    mount.innerHTML =
+      '<div style="padding:24px 24px 22px;">' +
+        '<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:18px; margin-bottom:18px;">' +
+          '<div>' +
+            '<div style="font-size:11px; letter-spacing:0.26em; color:#8b93a0;">COPERNICUS · IRM</div>' +
+            '<h2 id="heatPeaksModalTitle" style="margin:10px 0 0; font-family:\'Space Grotesk\',sans-serif; font-weight:700; font-size:42px; line-height:0.98; letter-spacing:-0.03em; color:#f5f7fa;">Pics de température<br>et canicule.</h2>' +
+            '<p style="margin:18px 0 0; font-size:14px; line-height:1.6; color:#aeb6c2; max-width:680px;">Vue synthétique des maxima estivaux annuels à Uccle entre 1950 et 2024, d\'après l\'export climat utilisé pour préparer le module. La tendance affichée ici est celle du visuel d\'origine.</p>' +
+          '</div>' +
+          '<button type="button" id="closeHeatPeaksModal" class="heat-widget-button" aria-label="Fermer le détail climat" style="width:42px; height:42px; border-radius:999px; background:#111419; color:#dfe3e9; font-size:18px; border:1px solid #23272f;">×</button>' +
+        '</div>' +
+        '<div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:14px;">' +
+          '<div style="font-size:11px; line-height:1.6; color:#6c7480;">' + heatPeaksMeta.sourceLabel + '</div>' +
+          '<div style="font-size:10px; letter-spacing:0.1em; color:#ff7a3c;">' + heatPeaksMeta.trendLabel + '</div>' +
+        '</div>' +
+        '<div style="display:flex; align-items:center; gap:18px; margin:0 0 18px; flex-wrap:wrap;">' +
+          '<span style="font-size:10px; letter-spacing:0.14em; color:#5f6772;">PIC MESURÉ</span>' +
+          '<span style="display:flex; align-items:center; gap:7px; font-size:10px; letter-spacing:0.06em; color:#8b93a0;"><span style="width:9px; height:9px; border-radius:50%; background:#46b3a6;"></span>&lt;31°</span>' +
+          '<span style="display:flex; align-items:center; gap:7px; font-size:10px; letter-spacing:0.06em; color:#8b93a0;"><span style="width:9px; height:9px; border-radius:50%; background:#ffe14d;"></span>31–32°</span>' +
+          '<span style="display:flex; align-items:center; gap:7px; font-size:10px; letter-spacing:0.06em; color:#8b93a0;"><span style="width:9px; height:9px; border-radius:50%; background:#ffac2e;"></span>33–34°</span>' +
+          '<span style="display:flex; align-items:center; gap:7px; font-size:10px; letter-spacing:0.06em; color:#8b93a0;"><span style="width:9px; height:9px; border-radius:50%; background:#ff7a1a;"></span>35–36°</span>' +
+          '<span style="display:flex; align-items:center; gap:7px; font-size:10px; letter-spacing:0.06em; color:#8b93a0;"><span style="width:9px; height:9px; border-radius:50%; background:#ff5a1f;"></span>37–38°</span>' +
+          '<span style="display:flex; align-items:center; gap:7px; font-size:10px; letter-spacing:0.06em; color:#8b93a0;"><span style="width:9px; height:9px; border-radius:50%; background:#e8332a; box-shadow:0 0 8px rgba(232,51,42,.7);"></span>≥39°</span>' +
+        '</div>' +
+        '<div style="background:#0c0f13; border:1px solid #1a1d24; border-radius:14px; padding:16px 14px 12px;">' + buildHeatPeaksSvg(1280, 320, true) + '</div>' +
+        '<div class="heat-peaks-grid" style="margin-top:18px;">' +
+          heatPeakHighlights.slice(1).map(function (item) {
+            return (
+              '<div style="background:#0c0e12; border:1px solid #1a1d24; border-radius:12px; padding:14px 15px;">' +
+                '<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">' +
+                  '<div style="font-family:\'Space Grotesk\',sans-serif; font-weight:700; font-size:22px; color:#f5f7fa;">' + item.year + '</div>' +
+                  '<div style="font-size:11px; font-weight:700; color:' + item.color + '; border:1px solid rgba(255,255,255,.12); border-radius:999px; padding:5px 8px;">' + String(item.value).replace('.', ',') + '°</div>' +
+                '</div>' +
+                '<div style="margin-top:8px; font-size:12px; line-height:1.6; color:#8f97a4;">' + item.label + '</div>' +
+              '</div>'
+            );
+          }).join('') +
+        '</div>' +
+        '<div style="margin-top:18px; padding:16px 18px; border:1px solid #1a1d24; border-radius:10px; background:#0c0e12; font-size:11.5px; line-height:1.6; color:#6c7480;">Export source disponible en NetCDF, mais ce module embarque pour l\'instant une synthèse visuelle locale et ses principaux repères climatiques. On pourra le brancher ensuite sur un JSON calculé automatiquement.</div>' +
+      '</div>';
+  }
+
+  function setHeatPeaksModalOpen(isOpen) {
+    var modal = document.getElementById('heatPeaksModal');
+    if (!modal) return;
+    modal.classList.toggle('is-open', isOpen);
+    modal.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
+
+  function bindHeatPeaksInteractions() {
+    var modal = document.getElementById('heatPeaksModal');
+    var openBtn = document.getElementById('openHeatPeaksModal');
+    var closeBtn = document.getElementById('closeHeatPeaksModal');
+
+    if (openBtn) {
+      openBtn.addEventListener('click', function () {
+        setHeatPeaksModalOpen(true);
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        setHeatPeaksModalOpen(false);
+      });
+    }
+
+    if (modal) {
+      modal.addEventListener('click', function (event) {
+        if (event.target === modal) setHeatPeaksModalOpen(false);
+      });
+    }
   }
 
   function renderHeatTimelineWidget() {
@@ -812,6 +1073,9 @@
   renderHeatTimelineWidget();
   renderHeatTimelineModal();
   bindHeatTimelineInteractions();
+  renderHeatPeaksWidget();
+  renderHeatPeaksModal();
+  bindHeatPeaksInteractions();
 
   fetch('coolspots-data.json')
     .then(function (r) { return r.json(); })
