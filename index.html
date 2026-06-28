@@ -291,7 +291,7 @@
 
         <div style="position:relative; background:linear-gradient(135deg,#e2382e,#9c1410); border-radius:12px; padding:18px; overflow:hidden;">
           <div style="position:absolute; right:-30px; top:-30px; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle, rgba(255,200,120,.45), transparent 65%);"></div>
-          <div style="position:relative; display:flex; align-items:center; justify-content:space-between;">
+          <div id="hottestSpot" style="position:relative; display:flex; align-items:center; justify-content:space-between;">
             <div>
               <div style="font-size:10px; letter-spacing:0.16em; color:rgba(255,255,255,.78);">🔥 POINT LE PLUS CHAUD</div>
               <div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:18px; color:#fff; margin-top:11px;">Gare du Midi</div>
@@ -1032,7 +1032,8 @@
     data.hourly.time.forEach(function (time, index) {
       hourlyIndex[time] = index;
     });
-    var currentIndex = hourlyIndex[data.current.time];
+    var currentHourKey = String(data.current.time || '').slice(0, 13) + ':00';
+    var currentIndex = hourlyIndex[currentHourKey];
 
     var nextDayStart = tomorrowKey + 'T00:00';
     var slots = [0, 3, 6, 9, 12, 15, 18, 21].map(function (hour) {
@@ -1060,12 +1061,21 @@
     var previousTemp = typeof currentIndex === 'number' && currentIndex > 0 && data.hourly.temperature_2m
       ? data.hourly.temperature_2m[currentIndex - 1]
       : null;
+    var currentHumidity = typeof currentIndex === 'number' && data.hourly.relative_humidity_2m
+      ? data.hourly.relative_humidity_2m[currentIndex]
+      : null;
+    var currentWind = typeof currentIndex === 'number' && data.hourly.wind_speed_10m
+      ? data.hourly.wind_speed_10m[currentIndex]
+      : null;
+    var currentUv = typeof currentIndex === 'number' && data.hourly.uv_index
+      ? data.hourly.uv_index[currentIndex]
+      : null;
     var metrics = {
       temperature: data.current.temperature_2m,
       apparent: data.current.apparent_temperature,
-      humidity: data.current.relative_humidity_2m,
-      wind: data.current.wind_speed_10m,
-      uv: data.current.uv_index,
+      humidity: currentHumidity,
+      wind: currentWind,
+      uv: currentUv,
       delta1h: typeof previousTemp === 'number' && typeof data.current.temperature_2m === 'number'
         ? data.current.temperature_2m - previousTemp
         : 0,
@@ -1082,8 +1092,8 @@
   function loadLiveWeather() {
     var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + WEATHER_LAT +
       '&longitude=' + WEATHER_LON +
-      '&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,uv_index' +
-      '&hourly=temperature_2m,apparent_temperature,uv_index' +
+      '&current=temperature_2m,apparent_temperature' +
+      '&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,uv_index' +
       '&timezone=' + encodeURIComponent(WEATHER_TIMEZONE) +
       '&forecast_days=2' +
       '&past_hours=1';
@@ -1323,6 +1333,27 @@
           '</div>';
       }
 
+      function renderHottest(ranked) {
+        var hottest = ranked[ranked.length - 1];
+        var mount = document.getElementById('hottestSpot');
+        if (!mount) return;
+        if (!hottest) {
+          mount.innerHTML = '<div style="font-size:11px; color:rgba(255,255,255,.72);">Aucun spot pour cette commune.</div>';
+          return;
+        }
+        var temp = Math.round(AMBIENT + hottest.deltaTempC);
+        mount.innerHTML =
+          '<div>' +
+            '<div style="font-size:10px; letter-spacing:0.16em; color:rgba(255,255,255,.78);">🔥 POINT LE PLUS CHAUD</div>' +
+            '<div style="font-family:\'Space Grotesk\',sans-serif; font-weight:600; font-size:18px; color:#fff; margin-top:11px;">' + spotLink(hottest) + '</div>' +
+            '<div style="font-size:10.5px; color:rgba(255,255,255,.8); margin-top:3px;">' + escapeHtml(hottest.commune) + ' · ' + escapeHtml(hottest.subtype || hottest.category) + '</div>' +
+          '</div>' +
+          '<div style="text-align:right;">' +
+            '<div style="font-family:\'Space Grotesk\',sans-serif; font-weight:700; font-size:46px; line-height:0.82; color:#fff;">' + temp + '°</div>' +
+            '<div style="font-size:11px; font-weight:600; color:rgba(255,255,255,.92); margin-top:3px;">' + fmtDelta(hottest.deltaTempC) + ' vs ambiant</div>' +
+          '</div>';
+      }
+
       function renderLive(ranked) {
         var top5 = ranked.slice(0, 5);
         var liveList = document.getElementById('liveSpotsList');
@@ -1380,6 +1411,7 @@
           return a.deltaTempC - b.deltaTempC || (b.coolScore || 0) - (a.coolScore || 0);
         });
         renderRefuge(ranked);
+        renderHottest(ranked);
         renderLive(ranked);
         renderFullList();
       }
