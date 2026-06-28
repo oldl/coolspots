@@ -240,31 +240,31 @@
         <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:20px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
             <span style="font-size:10px; letter-spacing:0.18em; color:#6c7480;">TEMPÉRATURE AMBIANTE</span>
-            <span style="font-size:10px; letter-spacing:0.12em; color:#ff7a3c;">▲ +4° / 1H</span>
+            <span id="ambientTrend" style="font-size:10px; letter-spacing:0.12em; color:#ff7a3c;">▲ +4° / 1H</span>
           </div>
           <div style="display:flex; align-items:flex-start; gap:4px;">
-            <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:82px; line-height:0.82; letter-spacing:-0.04em; color:#f5f7fa;">36</div>
+            <div id="ambientValue" style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:82px; line-height:0.82; letter-spacing:-0.04em; color:#f5f7fa;">36</div>
             <div style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:26px; color:#ff6a2b; margin-top:4px;">°C</div>
           </div>
           <div style="position:relative; height:9px; border-radius:5px; margin:18px 0 6px; background:linear-gradient(90deg,#2a86ef,#36d6c8,#ffe14d,#ff7a1a,#e2382e);">
-            <div style="position:absolute; top:-4px; bottom:-4px; left:78%; width:3px; border-radius:2px; background:#fff; box-shadow:0 0 8px rgba(255,255,255,.7);"></div>
+            <div id="ambientGaugeMarker" style="position:absolute; top:-4px; bottom:-4px; left:78%; width:3px; border-radius:2px; background:#fff; box-shadow:0 0 8px rgba(255,255,255,.7);"></div>
           </div>
           <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#5f6772; letter-spacing:0.08em;"><span>15°</span><span>30°</span><span>45°</span></div>
 
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:18px; background:#1d2128; border:1px solid #1d2128; border-radius:9px; overflow:hidden;">
-            <div style="background:#0e1014; padding:12px 13px;"><div style="font-size:9px; letter-spacing:0.14em; color:#6c7480;">RESSENTI</div><div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; color:#ff8a4c; margin-top:3px;">39°C</div></div>
-            <div style="background:#0e1014; padding:12px 13px;"><div style="font-size:9px; letter-spacing:0.14em; color:#6c7480;">INDICE UV</div><div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; color:#ffd84d; margin-top:3px;">8<span style="font-size:11px; color:#6c7480;"> /11</span></div></div>
-            <div style="background:#0e1014; padding:12px 13px;"><div style="font-size:9px; letter-spacing:0.14em; color:#6c7480;">HUMIDITÉ</div><div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; color:#e6e9ee; margin-top:3px;">28<span style="font-size:11px; color:#6c7480;"> %</span></div></div>
-            <div style="background:#0e1014; padding:12px 13px;"><div style="font-size:9px; letter-spacing:0.14em; color:#6c7480;">VENT</div><div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; color:#e6e9ee; margin-top:3px;">6<span style="font-size:11px; color:#6c7480;"> km/h</span></div></div>
+            <div style="background:#0e1014; padding:12px 13px;"><div style="font-size:9px; letter-spacing:0.14em; color:#6c7480;">RESSENTI</div><div id="apparentValue" style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; color:#ff8a4c; margin-top:3px;">39°C</div></div>
+            <div style="background:#0e1014; padding:12px 13px;"><div style="font-size:9px; letter-spacing:0.14em; color:#6c7480;">INDICE UV</div><div id="uvValue" style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; color:#ffd84d; margin-top:3px;">8<span style="font-size:11px; color:#6c7480;"> /11</span></div></div>
+            <div style="background:#0e1014; padding:12px 13px;"><div style="font-size:9px; letter-spacing:0.14em; color:#6c7480;">HUMIDITÉ</div><div id="humidityValue" style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; color:#e6e9ee; margin-top:3px;">28<span style="font-size:11px; color:#6c7480;"> %</span></div></div>
+            <div style="background:#0e1014; padding:12px 13px;"><div style="font-size:9px; letter-spacing:0.14em; color:#6c7480;">VENT</div><div id="windValue" style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; color:#e6e9ee; margin-top:3px;">6<span style="font-size:11px; color:#6c7480;"> km/h</span></div></div>
           </div>
 
           <div style="margin-top:16px;">
-            <div style="display:flex; justify-content:space-between; font-size:9px; letter-spacing:0.12em; color:#6c7480; margin-bottom:7px;"><span>NIVEAU D'ALERTE</span><span style="color:#ff8a4c;">3 / 4</span></div>
-            <div style="display:flex; gap:4px;">
-              <div style="flex:1; height:6px; border-radius:3px; background:#ffe14d;"></div>
-              <div style="flex:1; height:6px; border-radius:3px; background:#ff9e1b;"></div>
-              <div style="flex:1; height:6px; border-radius:3px; background:#e2382e; box-shadow:0 0 10px rgba(226,56,46,.6);"></div>
-              <div style="flex:1; height:6px; border-radius:3px; background:#23272f;"></div>
+            <div style="display:flex; justify-content:space-between; font-size:9px; letter-spacing:0.12em; color:#6c7480; margin-bottom:7px;"><span>NIVEAU D'ALERTE</span><span id="alertLevelValue" style="color:#ff8a4c;">3 / 4</span></div>
+            <div id="alertLevelBar" style="display:flex; gap:4px;">
+              <div data-alert-segment="1" style="flex:1; height:6px; border-radius:3px; background:#ffe14d;"></div>
+              <div data-alert-segment="2" style="flex:1; height:6px; border-radius:3px; background:#ff9e1b;"></div>
+              <div data-alert-segment="3" style="flex:1; height:6px; border-radius:3px; background:#e2382e; box-shadow:0 0 10px rgba(226,56,46,.6);"></div>
+              <div data-alert-segment="4" style="flex:1; height:6px; border-radius:3px; background:#23272f;"></div>
             </div>
           </div>
         </div>
@@ -516,6 +516,15 @@
   var alertBadgeEl = document.getElementById('alertBadge');
   var alertBadgeDotEl = document.getElementById('alertBadgeDot');
   var alertBadgeTextEl = document.getElementById('alertBadgeText');
+  var ambientValueEl = document.getElementById('ambientValue');
+  var ambientTrendEl = document.getElementById('ambientTrend');
+  var ambientGaugeMarkerEl = document.getElementById('ambientGaugeMarker');
+  var apparentValueEl = document.getElementById('apparentValue');
+  var uvValueEl = document.getElementById('uvValue');
+  var humidityValueEl = document.getElementById('humidityValue');
+  var windValueEl = document.getElementById('windValue');
+  var alertLevelValueEl = document.getElementById('alertLevelValue');
+  var alertSegmentEls = Array.prototype.slice.call(document.querySelectorAll('[data-alert-segment]'));
   var tempTimer = setInterval(function () {
     loaderTemp = loaderTemp >= 36 ? 28 : loaderTemp + 1;
     if (tempEl) tempEl.textContent = loaderTemp + '\u00b0';
@@ -959,6 +968,48 @@
     alertBadgeTextEl.textContent = state.label + ' · NIVEAU ' + state.level + '/4' + (typeof peakApparent === 'number' ? ' · PIC ' + Math.round(peakApparent) + '°' : '');
   }
 
+  function updateAmbientPanel(metrics) {
+    if (ambientValueEl && typeof metrics.temperature === 'number') {
+      ambientValueEl.textContent = Math.round(metrics.temperature);
+    }
+    if (apparentValueEl && typeof metrics.apparent === 'number') {
+      apparentValueEl.textContent = Math.round(metrics.apparent) + '°C';
+    }
+    if (humidityValueEl && typeof metrics.humidity === 'number') {
+      humidityValueEl.innerHTML = Math.round(metrics.humidity) + '<span style="font-size:11px; color:#6c7480;"> %</span>';
+    }
+    if (windValueEl && typeof metrics.wind === 'number') {
+      windValueEl.innerHTML = Math.round(metrics.wind) + '<span style="font-size:11px; color:#6c7480;"> km/h</span>';
+    }
+    if (uvValueEl && typeof metrics.uv === 'number') {
+      uvValueEl.innerHTML = Math.round(metrics.uv) + '<span style="font-size:11px; color:#6c7480;"> /11</span>';
+    }
+    if (ambientTrendEl && typeof metrics.delta1h === 'number') {
+      var deltaRounded = Math.round(metrics.delta1h);
+      var direction = deltaRounded > 0 ? '▲' : deltaRounded < 0 ? '▼' : '•';
+      var sign = deltaRounded > 0 ? '+' : '';
+      ambientTrendEl.textContent = direction + ' ' + sign + deltaRounded + '° / 1H';
+      ambientTrendEl.style.color = deltaRounded > 0 ? '#ff8a4c' : deltaRounded < 0 ? '#4fd6b0' : '#aeb6c2';
+    }
+    if (ambientGaugeMarkerEl && typeof metrics.temperature === 'number') {
+      var pct = clamp((metrics.temperature - 15) / (45 - 15), 0, 1) * 100;
+      ambientGaugeMarkerEl.style.left = pct.toFixed(1) + '%';
+    }
+
+    var state = getAlertState(metrics.apparent, metrics.peakApparent);
+    if (alertLevelValueEl) {
+      alertLevelValueEl.textContent = state.level + ' / 4';
+      alertLevelValueEl.style.color = state.level >= 4 ? '#ff6b6e' : state.level >= 3 ? '#ff8a4c' : state.level >= 2 ? '#ffd84d' : '#36d6c8';
+    }
+    alertSegmentEls.forEach(function (segment, index) {
+      var level = index + 1;
+      var isActive = level <= state.level;
+      var color = level === 1 ? '#ffe14d' : level === 2 ? '#ff9e1b' : level === 3 ? '#e2382e' : '#b31217';
+      segment.style.background = isActive ? color : '#23272f';
+      segment.style.boxShadow = isActive ? '0 0 10px ' + colorWithAlpha(color, 0.45) : 'none';
+    });
+  }
+
   function updateWeatherFromForecast(data) {
     if (!data || !data.current || !data.hourly || !Array.isArray(data.hourly.time)) return false;
 
@@ -981,6 +1032,7 @@
     data.hourly.time.forEach(function (time, index) {
       hourlyIndex[time] = index;
     });
+    var currentIndex = hourlyIndex[data.current.time];
 
     var nextDayStart = tomorrowKey + 'T00:00';
     var slots = [0, 3, 6, 9, 12, 15, 18, 21].map(function (hour) {
@@ -1004,7 +1056,23 @@
     feltSeries = nextFeltSeries;
     renderHeatChart();
     renderNowMarker();
-    updateAlertBadge(data.current.apparent_temperature, Math.max.apply(null, nextFeltSeries.slice(0, 8)));
+    var peakApparent = Math.max.apply(null, nextFeltSeries.slice(0, 8));
+    var previousTemp = typeof currentIndex === 'number' && currentIndex > 0 && data.hourly.temperature_2m
+      ? data.hourly.temperature_2m[currentIndex - 1]
+      : null;
+    var metrics = {
+      temperature: data.current.temperature_2m,
+      apparent: data.current.apparent_temperature,
+      humidity: data.current.relative_humidity_2m,
+      wind: data.current.wind_speed_10m,
+      uv: data.current.uv_index,
+      delta1h: typeof previousTemp === 'number' && typeof data.current.temperature_2m === 'number'
+        ? data.current.temperature_2m - previousTemp
+        : 0,
+      peakApparent: peakApparent
+    };
+    updateAmbientPanel(metrics);
+    updateAlertBadge(data.current.apparent_temperature, peakApparent);
 
     var currentTime = data.current.time ? new Date(data.current.time) : new Date();
     setWeatherSourceLabel('Open-Meteo · Bruxelles · maj ' + fmtClock(currentTime));
@@ -1014,10 +1082,11 @@
   function loadLiveWeather() {
     var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + WEATHER_LAT +
       '&longitude=' + WEATHER_LON +
-      '&current=temperature_2m,apparent_temperature' +
-      '&hourly=temperature_2m,apparent_temperature' +
+      '&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,uv_index' +
+      '&hourly=temperature_2m,apparent_temperature,uv_index' +
       '&timezone=' + encodeURIComponent(WEATHER_TIMEZONE) +
-      '&forecast_days=2';
+      '&forecast_days=2' +
+      '&past_hours=1';
 
     setWeatherSourceLabel('Open-Meteo · synchronisation…');
 
@@ -1031,6 +1100,15 @@
       })
       .catch(function () {
         setWeatherSourceLabel('Source météo indisponible · valeurs de secours');
+        updateAmbientPanel({
+          temperature: AMBIENT,
+          apparent: loaderTemp,
+          humidity: null,
+          wind: null,
+          uv: null,
+          delta1h: 0,
+          peakApparent: null
+        });
         updateAlertBadge(AMBIENT, null);
       });
   }
