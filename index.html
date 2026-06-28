@@ -225,10 +225,10 @@
           </select>
           <span style="font-size:11px; color:#5f6772;">▾</span>
         </div>
-        <div style="border:1px solid #23272f; border-radius:7px; padding:9px 12px; font-size:11px; letter-spacing:0.08em; color:#8b93a0;">21 JUIN&nbsp;·&nbsp;14:30</div>
-        <div style="display:flex; align-items:center; gap:9px; background:linear-gradient(100deg,#ff6a2b,#e2382e); border-radius:7px; padding:9px 13px;">
-          <span style="width:7px; height:7px; border-radius:50%; background:#fff; box-shadow:0 0 8px rgba(255,255,255,.8);"></span>
-          <span style="font-size:11px; font-weight:700; letter-spacing:0.1em; color:#fff;">VIGILANCE ORANGE · NIVEAU 3/4</span>
+        <div id="currentDateTime" style="border:1px solid #23272f; border-radius:7px; padding:9px 12px; font-size:11px; letter-spacing:0.08em; color:#8b93a0;">DATE&nbsp;·&nbsp;--:--</div>
+        <div id="alertBadge" style="display:flex; align-items:center; gap:9px; background:linear-gradient(100deg,#ff6a2b,#e2382e); border-radius:7px; padding:9px 13px;">
+          <span id="alertBadgeDot" style="width:7px; height:7px; border-radius:50%; background:#fff; box-shadow:0 0 8px rgba(255,255,255,.8);"></span>
+          <span id="alertBadgeText" style="font-size:11px; font-weight:700; letter-spacing:0.1em; color:#fff;">VIGILANCE ORANGE · NIVEAU 3/4</span>
         </div>
       </div>
     </div>
@@ -358,7 +358,7 @@
         <div style="background:#0e1014; border:1px solid #1d2128; border-radius:12px; padding:18px 18px 14px;">
           <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:6px;">
             <span style="font-size:11px; letter-spacing:0.16em; color:#aeb6c2;">COURBE DU JOUR</span>
-            <span style="font-size:9.5px; letter-spacing:0.08em; color:#5f6772;">°C / 24H</span>
+            <span id="weatherSourceLabel" style="font-size:9.5px; letter-spacing:0.08em; color:#5f6772;">Source météo en attente…</span>
           </div>
           <div style="display:flex; gap:16px; margin-bottom:8px;">
             <span style="display:flex; align-items:center; gap:6px; font-size:9.5px; color:#8b93a0;"><span style="width:14px; height:2px; background:#e6e9ee;"></span>Réel</span>
@@ -388,9 +388,9 @@
               <text x="34" y="24" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">40°</text>
               <text x="34" y="160" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">25°</text>
               <text x="34" y="223" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">18°</text>
-              <polygon points="40,147.3 142.5,174.5 245,183.6 347.5,120 450,56.4 552.5,29.1 655,47.3 757.5,101.8 860,138.2 860,220 40,220" fill="url(#heatfill)"/>
-              <polyline points="40,147.3 142.5,174.5 245,183.6 347.5,120 450,56.4 552.5,29.1 655,47.3 757.5,101.8 860,138.2" fill="none" stroke="#ff7a3c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-              <polyline points="40,165.5 142.5,183.6 245,192.7 347.5,138.2 450,83.6 552.5,56.4 655,74.5 757.5,120 860,147.3" fill="none" stroke="#e6e9ee" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+              <polygon id="feltArea" points="40,147.3 142.5,174.5 245,183.6 347.5,120 450,56.4 552.5,29.1 655,47.3 757.5,101.8 860,138.2 860,220 40,220" fill="url(#heatfill)"/>
+              <polyline id="feltLine" points="40,147.3 142.5,174.5 245,183.6 347.5,120 450,56.4 552.5,29.1 655,47.3 757.5,101.8 860,138.2" fill="none" stroke="#ff7a3c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+              <polyline id="realLine" points="40,165.5 142.5,183.6 245,192.7 347.5,138.2 450,83.6 552.5,56.4 655,74.5 757.5,120 860,147.3" fill="none" stroke="#e6e9ee" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
               <line id="nowLine" x1="535.4" y1="14" x2="535.4" y2="226" stroke="#ffffff" stroke-width="1" stroke-dasharray="3 4" opacity="0.55"/>
               <text id="nowLabel" x="535.4" y="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#aeb6c2" letter-spacing="1">MAINTENANT</text>
               <circle id="nowHalo" cx="552.5" cy="56.4" r="9" fill="#ff7a1a" opacity="0.25"/>
@@ -428,6 +428,9 @@
 </div>
 <script>
 (function () {
+  var WEATHER_LAT = 50.85;
+  var WEATHER_LON = 4.35;
+  var WEATHER_TIMEZONE = 'Europe/Brussels';
   var AMBIENT = 36;
   var SCALE_MIN = -14, SCALE_MAX = 6;
   var zeroPct = ((0 - SCALE_MIN) / (SCALE_MAX - SCALE_MIN)) * 100;
@@ -508,6 +511,11 @@
   ];
   var tempEl = document.getElementById('cs-temp');
   var dotsEl = document.getElementById('cs-dots');
+  var weatherSourceEl = document.getElementById('weatherSourceLabel');
+  var currentDateTimeEl = document.getElementById('currentDateTime');
+  var alertBadgeEl = document.getElementById('alertBadge');
+  var alertBadgeDotEl = document.getElementById('alertBadgeDot');
+  var alertBadgeTextEl = document.getElementById('alertBadgeText');
   var tempTimer = setInterval(function () {
     loaderTemp = loaderTemp >= 36 ? 28 : loaderTemp + 1;
     if (tempEl) tempEl.textContent = loaderTemp + '\u00b0';
@@ -522,6 +530,21 @@
   function fmtDelta(d) { var r = Math.round(d); return (r > 0 ? '+' : '') + r + '°'; }
   function fmtTemp(d) { return Math.round(AMBIENT + d) + '°C'; }
   function fmtHour(n) { return String(Math.floor(n)).padStart(2, '0') + 'h'; }
+  function fmtClock(date) {
+    return String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+  }
+  function fmtTopbarDate(date) {
+    var parts = new Intl.DateTimeFormat('fr-BE', {
+      timeZone: WEATHER_TIMEZONE,
+      day: '2-digit',
+      month: 'long'
+    }).formatToParts(date);
+    var values = {};
+    parts.forEach(function (part) {
+      values[part.type] = part.value;
+    });
+    return (values.day + ' ' + values.month).toUpperCase();
+  }
   function hasMeaningfulName(name) {
     var n = String(name || '').trim();
     if (n.length < 2) return false;
@@ -847,6 +870,171 @@
     return 220 - ((temp - 18) / (40 - 18)) * (220 - 20);
   }
 
+  function buildChartPoints(series) {
+    return chartHours.map(function (hour, index) {
+      return chartX(hour) + ',' + chartY(series[index]).toFixed(1);
+    }).join(' ');
+  }
+
+  function formatDateKey(date, timezone) {
+    var parts = new Intl.DateTimeFormat('en-CA', {
+      timeZone: timezone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).formatToParts(date);
+    var values = {};
+    parts.forEach(function (part) {
+      values[part.type] = part.value;
+    });
+    return values.year + '-' + values.month + '-' + values.day;
+  }
+
+  function renderHeatChart() {
+    var feltArea = document.getElementById('feltArea');
+    var feltLine = document.getElementById('feltLine');
+    var realLine = document.getElementById('realLine');
+    var feltPoints = buildChartPoints(feltSeries);
+    var realPoints = buildChartPoints(realSeries);
+
+    if (feltLine) feltLine.setAttribute('points', feltPoints);
+    if (realLine) realLine.setAttribute('points', realPoints);
+    if (feltArea) feltArea.setAttribute('points', feltPoints + ' 860,220 40,220');
+  }
+
+  function setWeatherSourceLabel(text) {
+    if (weatherSourceEl) weatherSourceEl.textContent = text;
+  }
+
+  function updateCurrentDateTime() {
+    if (!currentDateTimeEl) return;
+    var now = new Date();
+    currentDateTimeEl.innerHTML = fmtTopbarDate(now) + '&nbsp;·&nbsp;' + fmtClock(now);
+  }
+
+  function getAlertState(currentApparent, peakApparent) {
+    var severityTemp = Math.max(
+      typeof currentApparent === 'number' ? currentApparent : -Infinity,
+      typeof peakApparent === 'number' ? peakApparent : -Infinity
+    );
+
+    if (severityTemp >= 38) {
+      return {
+        level: 4,
+        label: 'ALERTE ROUGE',
+        gradient: 'linear-gradient(100deg,#ff4d4f,#b31217)',
+        glow: 'rgba(255,77,79,.88)'
+      };
+    }
+    if (severityTemp >= 32) {
+      return {
+        level: 3,
+        label: 'VIGILANCE ORANGE',
+        gradient: 'linear-gradient(100deg,#ff6a2b,#e2382e)',
+        glow: 'rgba(255,138,76,.88)'
+      };
+    }
+    if (severityTemp >= 28) {
+      return {
+        level: 2,
+        label: 'VIGILANCE JAUNE',
+        gradient: 'linear-gradient(100deg,#ffd84d,#ff9e1b)',
+        glow: 'rgba(255,216,77,.88)'
+      };
+    }
+    return {
+      level: 1,
+      label: 'SITUATION STABLE',
+      gradient: 'linear-gradient(100deg,#2bb7a9,#1f6feb)',
+      glow: 'rgba(54,214,200,.88)'
+    };
+  }
+
+  function updateAlertBadge(currentApparent, peakApparent) {
+    if (!alertBadgeEl || !alertBadgeTextEl || !alertBadgeDotEl) return;
+    var state = getAlertState(currentApparent, peakApparent);
+
+    alertBadgeEl.style.background = state.gradient;
+    alertBadgeDotEl.style.boxShadow = '0 0 8px ' + state.glow;
+    alertBadgeTextEl.textContent = state.label + ' · NIVEAU ' + state.level + '/4' + (typeof peakApparent === 'number' ? ' · PIC ' + Math.round(peakApparent) + '°' : '');
+  }
+
+  function updateWeatherFromForecast(data) {
+    if (!data || !data.current || !data.hourly || !Array.isArray(data.hourly.time)) return false;
+
+    if (typeof data.current.temperature_2m === 'number') {
+      AMBIENT = data.current.temperature_2m;
+    }
+
+    if (typeof data.current.apparent_temperature === 'number') {
+      loaderTemp = Math.round(data.current.apparent_temperature);
+    } else if (typeof data.current.temperature_2m === 'number') {
+      loaderTemp = Math.round(data.current.temperature_2m);
+    }
+    if (tempEl) tempEl.textContent = Math.round(loaderTemp) + '\u00b0';
+
+    var todayKey = formatDateKey(new Date(), WEATHER_TIMEZONE);
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    var tomorrowKey = formatDateKey(tomorrow, WEATHER_TIMEZONE);
+    var hourlyIndex = {};
+    data.hourly.time.forEach(function (time, index) {
+      hourlyIndex[time] = index;
+    });
+
+    var nextDayStart = tomorrowKey + 'T00:00';
+    var slots = [0, 3, 6, 9, 12, 15, 18, 21].map(function (hour) {
+      return todayKey + 'T' + String(hour).padStart(2, '0') + ':00';
+    });
+    slots.push(nextDayStart);
+
+    var nextRealSeries = [];
+    var nextFeltSeries = [];
+    for (var i = 0; i < slots.length; i += 1) {
+      var slotIndex = hourlyIndex[slots[i]];
+      if (typeof slotIndex !== 'number') return false;
+      var realValue = data.hourly.temperature_2m && data.hourly.temperature_2m[slotIndex];
+      var feltValue = data.hourly.apparent_temperature && data.hourly.apparent_temperature[slotIndex];
+      if (typeof realValue !== 'number' || typeof feltValue !== 'number') return false;
+      nextRealSeries.push(realValue);
+      nextFeltSeries.push(feltValue);
+    }
+
+    realSeries = nextRealSeries;
+    feltSeries = nextFeltSeries;
+    renderHeatChart();
+    renderNowMarker();
+    updateAlertBadge(data.current.apparent_temperature, Math.max.apply(null, nextFeltSeries.slice(0, 8)));
+
+    var currentTime = data.current.time ? new Date(data.current.time) : new Date();
+    setWeatherSourceLabel('Open-Meteo · Bruxelles · maj ' + fmtClock(currentTime));
+    return true;
+  }
+
+  function loadLiveWeather() {
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + WEATHER_LAT +
+      '&longitude=' + WEATHER_LON +
+      '&current=temperature_2m,apparent_temperature' +
+      '&hourly=temperature_2m,apparent_temperature' +
+      '&timezone=' + encodeURIComponent(WEATHER_TIMEZONE) +
+      '&forecast_days=2';
+
+    setWeatherSourceLabel('Open-Meteo · synchronisation…');
+
+    return fetch(url)
+      .then(function (response) {
+        if (!response.ok) throw new Error('weather_http_' + response.status);
+        return response.json();
+      })
+      .then(function (data) {
+        if (!updateWeatherFromForecast(data)) throw new Error('weather_payload_invalid');
+      })
+      .catch(function () {
+        setWeatherSourceLabel('Source météo indisponible · valeurs de secours');
+        updateAlertBadge(AMBIENT, null);
+      });
+  }
+
   function renderNowMarker() {
     var now = new Date();
     var hour = now.getHours() + (now.getMinutes() / 60);
@@ -994,6 +1182,10 @@
     });
   }
 
+  updateCurrentDateTime();
+  setInterval(updateCurrentDateTime, 30000);
+  updateAlertBadge(AMBIENT, null);
+  renderHeatChart();
   renderNowMarker();
   renderHeatTimelineWidget();
   renderHeatTimelineModal();
@@ -1126,6 +1318,9 @@
       setActiveCategoryButton();
       renderAll();
       setLoadingState(false);
+      loadLiveWeather().then(function () {
+        renderAll();
+      });
     })
     .catch(function (err) {
       console.error('Impossible de charger coolspots-data.json', err);
