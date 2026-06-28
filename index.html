@@ -391,10 +391,20 @@
               <polygon id="feltArea" points="40,147.3 142.5,174.5 245,183.6 347.5,120 450,56.4 552.5,29.1 655,47.3 757.5,101.8 860,138.2 860,220 40,220" fill="url(#heatfill)"/>
               <polyline id="feltLine" points="40,147.3 142.5,174.5 245,183.6 347.5,120 450,56.4 552.5,29.1 655,47.3 757.5,101.8 860,138.2" fill="none" stroke="#ff7a3c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
               <polyline id="realLine" points="40,165.5 142.5,183.6 245,192.7 347.5,138.2 450,83.6 552.5,56.4 655,74.5 757.5,120 860,147.3" fill="none" stroke="#e6e9ee" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+              <line id="hoverLine" x1="40" y1="14" x2="40" y2="226" stroke="#8b93a0" stroke-width="1" stroke-dasharray="2 4" opacity="0" pointer-events="none"/>
+              <circle id="hoverRealDot" cx="40" cy="165.5" r="4" fill="#e6e9ee" stroke="#0e1014" stroke-width="1.5" opacity="0" pointer-events="none"/>
+              <circle id="hoverFeltDot" cx="40" cy="147.3" r="4" fill="#ffae5c" stroke="#0e1014" stroke-width="1.5" opacity="0" pointer-events="none"/>
+              <g id="hoverTooltip" opacity="0" pointer-events="none">
+                <rect id="hoverTooltipBg" x="0" y="0" width="118" height="46" rx="8" fill="rgba(8,10,14,0.96)" stroke="#2a3038"/>
+                <text id="hoverTooltipTime" x="10" y="14" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#aeb6c2" letter-spacing="0.8">09h</text>
+                <text id="hoverTooltipReal" x="10" y="28" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#e6e9ee">Reel 25°</text>
+                <text id="hoverTooltipFelt" x="10" y="40" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#ffae5c">Ressenti 28°</text>
+              </g>
               <line id="nowLine" x1="535.4" y1="14" x2="535.4" y2="226" stroke="#ffffff" stroke-width="1" stroke-dasharray="3 4" opacity="0.55"/>
               <text id="nowLabel" x="535.4" y="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#aeb6c2" letter-spacing="1">MAINTENANT</text>
               <circle id="nowHalo" cx="552.5" cy="56.4" r="9" fill="#ff7a1a" opacity="0.25"/>
               <circle id="nowDot" cx="552.5" cy="56.4" r="4.5" fill="#ffae5c" stroke="#0e1014" stroke-width="1.5"/>
+              <rect id="chartHoverZone" x="40" y="20" width="820" height="200" fill="transparent" style="cursor:crosshair;"></rect>
               <text x="40" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">00h</text>
               <text x="142.5" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">03h</text>
               <text x="245" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#5f6772">06h</text>
@@ -885,6 +895,10 @@
     }).join(' ');
   }
 
+  function hourLabel(hour) {
+    return String(Math.round(hour)).padStart(2, '0') + 'h';
+  }
+
   function formatDateKey(date, timezone) {
     var parts = new Intl.DateTimeFormat('en-CA', {
       timeZone: timezone,
@@ -909,6 +923,73 @@
     if (feltLine) feltLine.setAttribute('points', feltPoints);
     if (realLine) realLine.setAttribute('points', realPoints);
     if (feltArea) feltArea.setAttribute('points', feltPoints + ' 860,220 40,220');
+  }
+
+  function setHoverState(index) {
+    var hoverLine = document.getElementById('hoverLine');
+    var hoverRealDot = document.getElementById('hoverRealDot');
+    var hoverFeltDot = document.getElementById('hoverFeltDot');
+    var hoverTooltip = document.getElementById('hoverTooltip');
+    var hoverTooltipBg = document.getElementById('hoverTooltipBg');
+    var hoverTooltipTime = document.getElementById('hoverTooltipTime');
+    var hoverTooltipReal = document.getElementById('hoverTooltipReal');
+    var hoverTooltipFelt = document.getElementById('hoverTooltipFelt');
+
+    if (!hoverLine || !hoverRealDot || !hoverFeltDot || !hoverTooltip || !hoverTooltipBg || !hoverTooltipTime || !hoverTooltipReal || !hoverTooltipFelt) return;
+
+    if (typeof index !== 'number' || index < 0 || index >= chartHours.length) {
+      hoverLine.setAttribute('opacity', '0');
+      hoverRealDot.setAttribute('opacity', '0');
+      hoverFeltDot.setAttribute('opacity', '0');
+      hoverTooltip.setAttribute('opacity', '0');
+      return;
+    }
+
+    var hour = chartHours[index];
+    var x = chartX(hour);
+    var realY = chartY(realSeries[index]);
+    var feltY = chartY(feltSeries[index]);
+    var tooltipX = Math.min(740, Math.max(46, x + 12));
+    if (x > 700) tooltipX = x - 130;
+    var tooltipY = Math.max(26, Math.min(170, Math.min(realY, feltY) - 56));
+
+    hoverLine.setAttribute('x1', x);
+    hoverLine.setAttribute('x2', x);
+    hoverLine.setAttribute('opacity', '0.9');
+    hoverRealDot.setAttribute('cx', x);
+    hoverRealDot.setAttribute('cy', realY);
+    hoverRealDot.setAttribute('opacity', '1');
+    hoverFeltDot.setAttribute('cx', x);
+    hoverFeltDot.setAttribute('cy', feltY);
+    hoverFeltDot.setAttribute('opacity', '1');
+    hoverTooltip.setAttribute('transform', 'translate(' + tooltipX + ',' + tooltipY + ')');
+    hoverTooltip.setAttribute('opacity', '1');
+    hoverTooltipTime.textContent = hourLabel(hour);
+    hoverTooltipReal.textContent = 'Reel ' + Math.round(realSeries[index]) + '°';
+    hoverTooltipFelt.textContent = 'Ressenti ' + Math.round(feltSeries[index]) + '°';
+    hoverTooltipBg.setAttribute('width', '118');
+  }
+
+  function bindChartHover() {
+    var hoverZone = document.getElementById('chartHoverZone');
+    if (!hoverZone || hoverZone.__bound) return;
+    hoverZone.__bound = true;
+
+    function updateFromPointer(event) {
+      var pt = hoverZone.ownerSVGElement.createSVGPoint();
+      pt.x = event.clientX;
+      pt.y = event.clientY;
+      var local = pt.matrixTransform(hoverZone.getScreenCTM().inverse());
+      var ratio = clamp((local.x - 40) / (860 - 40), 0, 1);
+      var index = Math.round(ratio * (chartHours.length - 1));
+      setHoverState(index);
+    }
+
+    hoverZone.addEventListener('pointermove', updateFromPointer);
+    hoverZone.addEventListener('pointerenter', updateFromPointer);
+    hoverZone.addEventListener('pointerleave', function () {
+      setHoverState(null);
+    });
   }
 
   function setWeatherSourceLabel(text) {
@@ -1041,10 +1122,27 @@
     });
     slots.push(nextDayStart);
 
+    function findClosestHourlyIndex(targetKey) {
+      if (typeof hourlyIndex[targetKey] === 'number') return hourlyIndex[targetKey];
+      var targetMs = new Date(targetKey).getTime();
+      if (!Number.isFinite(targetMs)) return null;
+      var bestIndex = null;
+      var bestDelta = Infinity;
+      data.hourly.time.forEach(function (time, index) {
+        var candidateMs = new Date(time).getTime();
+        var delta = Math.abs(candidateMs - targetMs);
+        if (delta < bestDelta) {
+          bestDelta = delta;
+          bestIndex = index;
+        }
+      });
+      return bestDelta <= 3 * 60 * 60 * 1000 ? bestIndex : null;
+    }
+
     var nextRealSeries = [];
     var nextFeltSeries = [];
     for (var i = 0; i < slots.length; i += 1) {
-      var slotIndex = hourlyIndex[slots[i]];
+      var slotIndex = findClosestHourlyIndex(slots[i]);
       if (typeof slotIndex !== 'number') return false;
       var realValue = data.hourly.temperature_2m && data.hourly.temperature_2m[slotIndex];
       var feltValue = data.hourly.apparent_temperature && data.hourly.apparent_temperature[slotIndex];
@@ -1096,7 +1194,7 @@
       '&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,uv_index' +
       '&timezone=' + encodeURIComponent(WEATHER_TIMEZONE) +
       '&forecast_days=2' +
-      '&past_hours=1';
+      '&past_hours=24';
 
     setWeatherSourceLabel('Open-Meteo · synchronisation…');
 
@@ -1274,6 +1372,7 @@
   setInterval(updateCurrentDateTime, 30000);
   updateAlertBadge(AMBIENT, null);
   renderHeatChart();
+  bindChartHover();
   renderNowMarker();
   renderHeatTimelineWidget();
   renderHeatTimelineModal();
