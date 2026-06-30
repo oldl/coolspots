@@ -1249,10 +1249,46 @@
     }
   }
 
-  // Continuous Δ°C derived from cool_score so every spot ranks distinctly.
+  // Indoor cooling depends on the outside heat level and stays conservative.
   function inferIndoorDelta(item) {
     var s = typeof item.cool_score === 'number' ? clamp(item.cool_score, 0, 100) : 50;
-    return -(6 + (s / 100) * 8);
+    if (item.ac_likely === 'likely') {
+      var comfortTarget = item.type === 'mall'
+        ? 24
+        : item.type === 'museum'
+          ? 23.5
+          : item.type === 'pool'
+            ? 26
+            : 24;
+      var indoorTemp = AMBIENT > comfortTarget ? comfortTarget : AMBIENT;
+      var rawDelta = indoorTemp - AMBIENT;
+      var maxCooling = item.type === 'pool' ? 6 : 8;
+      return Math.max(rawDelta, -maxCooling);
+    }
+
+    var heatFactor = clamp((AMBIENT - 20) / 16, 0, 1);
+    var baseCooling = 1.2 + heatFactor * 1.8;
+    var scoreBoost = (s / 100) * (0.8 + heatFactor * 1.2);
+    var typeBoost = item.type === 'pool'
+      ? 0.9
+      : item.type === 'mall'
+        ? 0.5
+        : item.type === 'museum'
+          ? 0.3
+          : item.type === 'library'
+            ? 0.2
+            : 0;
+    var inferredCooling = Math.round((baseCooling + scoreBoost + typeBoost) * 10) / 10;
+    return -clamp(inferredCooling, 1, 6);
+  }
+
+  function refreshDynamicSpotMetrics(spots) {
+    spots.forEach(function (spot) {
+      if (spot.category === 'indoor' && spot.sourceItem) {
+        spot.coolScore = spot.sourceItem.cool_score;
+        spot.deltaTempC = inferIndoorDelta(spot.sourceItem);
+      }
+    });
   }
 
   function inferWaterDelta(item) {
@@ -1338,6 +1374,7 @@
                   : item.type === 'station'
                     ? 'gare / station'
                     : 'refuge intérieur',
+        sourceItem: item,
         coolScore: item.cool_score,
         deltaTempC: inferIndoorDelta(item)
       });
@@ -1505,6 +1542,7 @@
       }
 
       function renderAll() {
+        refreshDynamicSpotMetrics(allSpots);
         var scoped = currentCommuneSpots();
         var ranked = scoped.slice().sort(function (a, b) {
           return a.deltaTempC - b.deltaTempC || (b.coolScore || 0) - (a.coolScore || 0);
