@@ -1282,31 +1282,44 @@
     return -clamp(inferredCooling, 1, 6);
   }
 
+  function outdoorHeatFactor() {
+    return clamp((AMBIENT - 20) / 14, 0, 1);
+  }
+
   function refreshDynamicSpotMetrics(spots) {
     spots.forEach(function (spot) {
       if (spot.category === 'indoor' && spot.sourceItem) {
         spot.coolScore = spot.sourceItem.cool_score;
         spot.deltaTempC = inferIndoorDelta(spot.sourceItem);
+      } else if ((spot.category === 'green' || spot.category === 'water') && spot.sourceItem) {
+        if (spot.sourceKind === 'axis') {
+          spot.coolScore = spot.sourceItem.score;
+          spot.deltaTempC = inferAxisDelta(spot.sourceItem);
+        } else if (spot.sourceKind === 'water_point') {
+          spot.deltaTempC = inferWaterDelta(spot.sourceItem);
+        }
       }
     });
   }
 
   function inferWaterDelta(item) {
-    if (item.type === 'drinking_water') return -4;
-    if (item.type === 'street_fountain') return -5.5;
-    if (item.type === 'ornamental_fountain') return -4.5;
+    var heatFactor = outdoorHeatFactor();
+    if (item.type === 'drinking_water') return -Math.round((0.4 + heatFactor * 1.6) * 10) / 10;
+    if (item.type === 'street_fountain') return -Math.round((0.8 + heatFactor * 1.7) * 10) / 10;
+    if (item.type === 'ornamental_fountain') return -Math.round((0.7 + heatFactor * 1.5) * 10) / 10;
     var a = item.surface_m2 || 0;
-    if (a > 5000) return -9;
-    if (a > 1000) return -7.5;
-    return -6;
+    if (a > 5000) return -Math.round((1.2 + heatFactor * 3.3) * 10) / 10;
+    if (a > 1000) return -Math.round((1 + heatFactor * 3) * 10) / 10;
+    return -Math.round((0.8 + heatFactor * 2.4) * 10) / 10;
   }
 
   function inferAxisDelta(axis) {
     var s = typeof axis.score === 'number' ? clamp(axis.score, 0, 100) : 60;
-    if (axis.placeType === 'forest') return -(10 + (s / 100) * 4);
-    if (axis.placeType === 'park') return -(7 + (s / 100) * 5);
-    if (axis.placeType === 'water') return -(6 + (s / 100) * 3);
-    return -(4 + (s / 100) * 4);
+    var heatFactor = outdoorHeatFactor();
+    if (axis.placeType === 'forest') return -Math.round((1 + heatFactor * (2.5 + (s / 100) * 3.5)) * 10) / 10;
+    if (axis.placeType === 'park') return -Math.round((0.8 + heatFactor * (1.8 + (s / 100) * 2.8)) * 10) / 10;
+    if (axis.placeType === 'water') return -Math.round((0.8 + heatFactor * (1.6 + (s / 100) * 2.6)) * 10) / 10;
+    return -Math.round((0.5 + heatFactor * (1.2 + (s / 100) * 2)) * 10) / 10;
   }
 
   function categoryLabelForSpot(spot) {
@@ -1345,6 +1358,8 @@
           commune: commune.label,
           lat: axis.centLat,
           lon: axis.centLon,
+          sourceKind: 'axis',
+          sourceItem: axis,
           category: axis.placeType === 'water' ? 'water' : 'green',
           subtype: axis.placeType === 'street' ? 'rue ombragée' : axis.placeType === 'park' ? 'parc' : axis.placeType === 'forest' ? 'bois' : axis.placeType,
           coolScore: axis.score,
@@ -1387,6 +1402,8 @@
         commune: item.commune,
         lat: item.lat,
         lon: item.lon,
+        sourceKind: 'water_point',
+        sourceItem: item,
         category: 'water',
         subtype: item.type === 'drinking_water'
           ? 'borne potable'
