@@ -105,6 +105,205 @@
   .heat-timeline-item:last-child .heat-timeline-line {
     background: linear-gradient(#1d2128, transparent);
   }
+  .reading-section {
+    margin-top: 16px;
+    padding: 22px 24px 24px;
+    border: 1px solid #1d2128;
+    border-radius: 12px;
+    background:
+      radial-gradient(520px 260px at 0% 0%, rgba(54, 214, 200, 0.08), transparent 72%),
+      #0e1014;
+  }
+  .reading-feature,
+  .reading-card,
+  .science-card {
+    color: inherit;
+    text-decoration: none;
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+  }
+  .reading-feature:hover,
+  .reading-card:hover,
+  .science-card:hover {
+    transform: translateY(-2px);
+  }
+  .reading-feature {
+    position: relative;
+    display: grid;
+    grid-template-columns:minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: end;
+    margin-top: 18px;
+    padding: 24px;
+    overflow: hidden;
+    border: 1px solid #1d514c;
+    border-radius: 11px;
+    background:
+      radial-gradient(380px 180px at 100% 0%, rgba(54, 214, 200, 0.16), transparent 70%),
+      #0c1517;
+  }
+  .reading-feature:hover {
+    border-color: #2d766e;
+    box-shadow: 0 16px 36px rgba(14, 77, 71, 0.18);
+  }
+  .reading-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .reading-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 174px;
+    padding: 18px;
+    border: 1px solid #1d2128;
+    border-radius: 10px;
+    background: #101216;
+  }
+  .reading-card:hover {
+    border-color: #343b46;
+    background: #12151a;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+  }
+  .reading-card-title {
+    margin-top: 13px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #f1f3f6;
+  }
+  .reading-card-copy {
+    margin-top: 8px;
+    font-size: 11.5px;
+    line-height: 1.55;
+    color: #7f8793;
+  }
+  .reading-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 15px;
+    color: #5f6772;
+  }
+  .reading-arrow {
+    flex: none;
+    font-size: 15px;
+    color: #36d6c8;
+  }
+  .science-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .science-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 132px;
+    padding: 17px;
+    border: 1px solid #29251d;
+    border-radius: 10px;
+    background: #12110f;
+  }
+  .science-card:hover {
+    border-color: #51442a;
+    background: #15130f;
+    box-shadow: 0 14px 30px rgba(70, 47, 9, 0.16);
+  }
+  .topic-panels {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .topic-panel {
+    padding: 18px;
+    border: 1px solid #1d2128;
+    border-radius: 10px;
+    background: #101216;
+  }
+  .topic-panel--urban {
+    border-color: #1d332c;
+    background: #0e1412;
+  }
+  .topic-panel--health {
+    border-color: #38242a;
+    background: #151013;
+  }
+  .topic-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .topic-panel--health .topic-links {
+    grid-template-columns: 1fr;
+  }
+  .topic-link {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 82px;
+    padding: 13px;
+    border: 1px solid #20262c;
+    border-radius: 8px;
+    background: rgba(8, 10, 13, 0.48);
+    color: inherit;
+    text-decoration: none;
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+  }
+  .topic-link:hover {
+    transform: translateY(-2px);
+    border-color: #3a444d;
+    background: rgba(18, 22, 26, 0.86);
+  }
+  .media-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 12px;
+  }
+  .media-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 28px;
+    padding: 6px 9px;
+    border: 1px solid #222730;
+    border-radius: 999px;
+    background: #101216;
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    color: #7e8793;
+    text-decoration: none;
+    transition: transform 180ms ease, border-color 180ms ease, color 180ms ease, background 180ms ease;
+  }
+  .media-chip:hover,
+  .media-chip:focus-visible {
+    transform: translateY(-1px);
+    border-color: #28534f;
+    background: #0e1718;
+    color: #73d9cf;
+    outline: none;
+  }
+  .media-chip::after {
+    content: '↗';
+    font-size: 9px;
+    color: #36d6c8;
+    opacity: 0;
+    transform: translateX(-2px);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+  .media-chip:hover::after,
+  .media-chip:focus-visible::after {
+    opacity: 1;
+    transform: translateX(0);
+  }
   #cs-loader {
     min-height: 520px;
     border-radius: 10px;
@@ -177,6 +376,10 @@
     .topbar-controls { flex-wrap: wrap !important; }
     .mainGrid { grid-template-columns: 1fr !important; }
     .splitGrid { grid-template-columns: 1fr !important; }
+    .reading-section { padding: 18px 14px 16px !important; }
+    .reading-feature { grid-template-columns: 1fr !important; padding: 19px !important; gap: 16px !important; }
+    .reading-grid, .science-grid, .topic-panels, .topic-links { grid-template-columns: 1fr !important; }
+    .reading-card { min-height: 0 !important; }
     .heat-modal-backdrop { padding: 10px !important; }
     .heat-modal-panel { max-height: 94vh !important; border-radius: 14px !important; }
     #categoryFilter { flex-wrap: wrap !important; }
@@ -436,6 +639,222 @@
   <div style="margin-top:16px;">
     <div id="heatTimelineWidget"></div>
   </div>
+
+  <section class="reading-section" aria-labelledby="readingSectionTitle">
+    <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+      <div>
+        <div style="font-size:10px; letter-spacing:0.18em; color:#36d6c8;">RESSOURCES ÉDITORIALES</div>
+        <h2 id="readingSectionTitle" style="margin:8px 0 0; font-family:'Space Grotesk',sans-serif; font-size:26px; line-height:1.05; letter-spacing:-0.02em; color:#f5f7fa;">Pour aller plus loin</h2>
+        <p style="max-width:720px; margin:8px 0 0; font-size:11.5px; line-height:1.55; color:#707986;">Articles, données et médias pour comprendre les vagues de chaleur et leurs effets.</p>
+      </div>
+      <div style="font-size:9.5px; letter-spacing:0.12em; color:#5f6772;">21 RESSOURCES · 16 MÉDIAS · MÀJ 20.07.2026</div>
+    </div>
+
+    <a class="reading-feature" href="https://www.rtbf.be/article/a-quel-point-fait-il-plus-chaud-dans-votre-commune-depuis-votre-naissance-faites-le-test-11380663" target="_blank" rel="noopener noreferrer">
+      <div style="position:relative;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:9.5px; font-weight:700; letter-spacing:0.13em; color:#36d6c8;">ARTICLE À LA UNE</span>
+          <span style="font-size:9px; letter-spacing:0.1em; color:#0b1718; background:#36d6c8; border-radius:999px; padding:4px 7px;">BELGIQUE</span>
+          <span style="font-size:9px; letter-spacing:0.1em; color:#8ecbc5; border:1px solid #24534f; border-radius:999px; padding:3px 7px;">INTERACTIF</span>
+        </div>
+        <div style="max-width:760px; margin-top:14px; font-family:'Space Grotesk',sans-serif; font-size:24px; font-weight:650; line-height:1.15; color:#effffd;">À quel point fait-il plus chaud dans votre commune depuis votre naissance ?</div>
+        <div style="max-width:720px; margin-top:9px; font-size:12px; line-height:1.6; color:#86a09e;">Un article interactif de la RTBF pour mesurer l’évolution locale de la température en Belgique.</div>
+      </div>
+      <div style="position:relative; display:flex; align-items:center; gap:12px; white-space:nowrap;">
+        <span style="font-size:10px; letter-spacing:0.1em; color:#7ea49f;">RTBF</span>
+        <span class="reading-arrow" aria-hidden="true">↗</span>
+      </div>
+    </a>
+
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:24px;">
+      <h3 style="margin:0; font-size:10.5px; font-weight:500; letter-spacing:0.17em; color:#aeb6c2;">ARTICLES À RETENIR</h3>
+      <span style="font-size:9px; letter-spacing:0.1em; color:#4f5660;">6 ARTICLES</span>
+    </div>
+
+    <div class="reading-grid">
+      <a class="reading-card" href="https://www.lemonde.fr/planete/article/2026/07/14/pourquoi-meteo-france-n-arrive-pas-a-mieux-predire-les-vagues-de-chaleur_6723291_3244.html" target="_blank" rel="noopener noreferrer">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:9px; letter-spacing:0.12em; color:#9ca4af;">LE MONDE · 14.07.2026</span>
+          <span style="font-size:8.5px; letter-spacing:0.09em; color:#ff9b6f; border:1px solid #4c2b22; border-radius:999px; padding:3px 6px;">ABONNÉS</span>
+        </div>
+        <div class="reading-card-title">Pourquoi Météo-France n’arrive pas à mieux prédire les vagues de chaleur</div>
+        <div class="reading-card-copy">Les limites des prévisions et la difficulté à communiquer l’incertitude.</div>
+        <div class="reading-card-footer"><span style="font-size:9px; letter-spacing:0.1em;">PRÉVISIONS</span><span class="reading-arrow" aria-hidden="true">↗</span></div>
+      </a>
+
+      <a class="reading-card" href="https://www.lemonde.fr/les-decodeurs/article/2026/07/01/visualisez-le-caractere-hors-norme-de-la-vague-de-chaleur-de-juin_6717587_4355770.html" target="_blank" rel="noopener noreferrer">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:9px; letter-spacing:0.12em; color:#9ca4af;">LES DÉCODEURS · 01.07.2026</span>
+          <span style="font-size:8.5px; letter-spacing:0.09em; color:#ff9b6f; border:1px solid #4c2b22; border-radius:999px; padding:3px 6px;">ABONNÉS</span>
+        </div>
+        <div class="reading-card-title">Visualisez le caractère historique de la canicule de juin 2026</div>
+        <div class="reading-card-copy">Graphiques, records et comparaison avec la canicule européenne de 2003.</div>
+        <div class="reading-card-footer"><span style="font-size:9px; letter-spacing:0.1em;">DATAVISUALISATION</span><span class="reading-arrow" aria-hidden="true">↗</span></div>
+      </a>
+
+      <a class="reading-card" href="https://www.lemonde.fr/videos/video/2026/06/19/y-a-t-il-plus-de-vagues-de-chaleur-qu-avant_6705009_1669088.html" target="_blank" rel="noopener noreferrer">
+        <div style="font-size:9px; letter-spacing:0.12em; color:#9ca4af;">LE MONDE · VIDÉO · 19.06.2026</div>
+        <div class="reading-card-title">Y a-t-il plus de vagues de chaleur qu’avant ?</div>
+        <div class="reading-card-copy">Plus de la moitié des 51 vagues recensées depuis 1947 ont eu lieu durant les quinze dernières années.</div>
+        <div class="reading-card-footer"><span style="font-size:9px; letter-spacing:0.1em;">CLIMAT</span><span class="reading-arrow" aria-hidden="true">↗</span></div>
+      </a>
+
+      <a class="reading-card" href="https://www.rtbf.be/article/la-belgique-connait-sa-premiere-vague-de-chaleur-officielle-11570639" target="_blank" rel="noopener noreferrer">
+        <div style="font-size:9px; letter-spacing:0.12em; color:#9ca4af;">RTBF · BELGIQUE · 2025</div>
+        <div class="reading-card-title">La Belgique connaît sa première vague de chaleur officielle de 2025</div>
+        <div class="reading-card-copy">Un exemple concret de couverture d’un épisode de chaleur à l’échelle locale.</div>
+        <div class="reading-card-footer"><span style="font-size:9px; letter-spacing:0.1em;">ACTUALITÉ LOCALE</span><span class="reading-arrow" aria-hidden="true">↗</span></div>
+      </a>
+
+      <a class="reading-card" href="https://www.meteosuisse.admin.ch/portrait/meteosuisse-blog/fr/2026/06/analyse-de-la-canicule-actuelle.html" target="_blank" rel="noopener noreferrer">
+        <div style="font-size:9px; letter-spacing:0.12em; color:#9ca4af;">MÉTÉOSUISSE · JUIN 2026</div>
+        <div class="reading-card-title">Analyse de la canicule actuelle : précoce et inhabituellement longue</div>
+        <div class="reading-card-copy">Données, durée et records observés, avec un éclairage sur la Suisse romande.</div>
+        <div class="reading-card-footer"><span style="font-size:9px; letter-spacing:0.1em;">OBSERVATIONS</span><span class="reading-arrow" aria-hidden="true">↗</span></div>
+      </a>
+
+      <a class="reading-card" href="https://www.canada.ca/fr/environnement-changement-climatique/nouvelles/2025/09/les-recentes-vagues-de-chaleur-au-canada-ont-ete-rendues-beaucoup-plus-probables-par-les-changements-climatiques-dorigine-humaine.html" target="_blank" rel="noopener noreferrer">
+        <div style="font-size:9px; letter-spacing:0.12em; color:#9ca4af;">GOUVERNEMENT DU CANADA · 2025</div>
+        <div class="reading-card-title">Les vagues de chaleur rendues plus probables par les changements climatiques</div>
+        <div class="reading-card-copy">Un exemple clair et accessible de science de l’attribution climatique.</div>
+        <div class="reading-card-footer"><span style="font-size:9px; letter-spacing:0.1em;">ATTRIBUTION</span><span class="reading-arrow" aria-hidden="true">↗</span></div>
+      </a>
+    </div>
+
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:24px;">
+      <h3 style="margin:0; font-size:10.5px; font-weight:500; letter-spacing:0.17em; color:#ff8a67;">ARTICLES RÉCENTS INTÉRESSANTS</h3>
+      <span style="font-size:9px; letter-spacing:0.1em; color:#4f5660;">4 ARTICLES</span>
+    </div>
+
+    <div class="reading-grid">
+      <a class="reading-card" href="https://www.lemonde.fr/planete/article/2026/06/16/canicule-plume-ou-dome-de-chaleur-quels-mots-pour-decrire-les-hausses-de-temperature_6182497_3245.html" target="_blank" rel="noopener noreferrer">
+        <div style="font-size:9px; letter-spacing:0.12em; color:#9ca4af;">LE MONDE · 16.06.2026</div>
+        <div class="reading-card-title">« Canicule », « plume » ou « dôme » de chaleur : quels mots employer ?</div>
+        <div class="reading-card-copy">Un lexique pédagogique pour distinguer vague, pic, plume et dôme de chaleur.</div>
+        <div class="reading-card-footer"><span style="font-size:9px; letter-spacing:0.1em;">DÉCRYPTAGE</span><span class="reading-arrow" aria-hidden="true">↗</span></div>
+      </a>
+
+      <a class="reading-card" href="https://www.lemonde.fr/planete/article/2025/06/30/canicule-l-ecart-entre-ce-qu-il-faudrait-faire-et-la-vitesse-a-laquelle-progresse-le-changement-climatique-se-creuse-d-annee-en-annee_6616990_3244.html" target="_blank" rel="noopener noreferrer">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:9px; letter-spacing:0.12em; color:#9ca4af;">LE MONDE · 30.06.2025</span>
+          <span style="font-size:8.5px; letter-spacing:0.09em; color:#ff9b6f; border:1px solid #4c2b22; border-radius:999px; padding:3px 6px;">ENTRETIEN</span>
+        </div>
+        <div class="reading-card-title">Magali Reghezza-Zitt : « Face à la canicule, on n’est pas prêts »</div>
+        <div class="reading-card-copy">Pourquoi les villes, le bâti et les rythmes collectifs restent insuffisamment adaptés.</div>
+        <div class="reading-card-footer"><span style="font-size:9px; letter-spacing:0.1em;">ADAPTATION</span><span class="reading-arrow" aria-hidden="true">↗</span></div>
+      </a>
+
+      <a class="reading-card" href="https://www.adaptation-changement-climatique.gouv.fr/dossiers-thematiques/impacts/canicule-MAQUETTE-Acteur-Economique" target="_blank" rel="noopener noreferrer">
+        <div style="font-size:9px; letter-spacing:0.12em; color:#9ca4af;">CENTRE ADAPTATION CLIMAT · 2025</div>
+        <div class="reading-card-title">Canicule : à quoi s’attendre et comment s’adapter ?</div>
+        <div class="reading-card-copy">Quatre fois plus de jours de canicule que dans les années 1980, avec des solutions concrètes.</div>
+        <div class="reading-card-footer"><span style="font-size:9px; letter-spacing:0.1em;">VÉGÉTALISATION · ISOLATION</span><span class="reading-arrow" aria-hidden="true">↗</span></div>
+      </a>
+
+      <a class="reading-card" href="https://news.belgium.be/fr/vague-de-chaleur-2026-la-cim-sante-publique-tire-les-lecons-et-renforce-sa-preparation-aux-futures" target="_blank" rel="noopener noreferrer">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:9px; letter-spacing:0.12em; color:#9ca4af;">NEWS.BELGIUM · 08.07.2026</span>
+          <span style="font-size:8.5px; letter-spacing:0.09em; color:#68d9cc; border:1px solid #24534f; border-radius:999px; padding:3px 6px;">OFFICIEL</span>
+        </div>
+        <div class="reading-card-title">Vague de chaleur 2026 : la Belgique renforce sa préparation</div>
+        <div class="reading-card-copy">Bilan de la canicule exceptionnelle de juin et priorités pour un plan chaleur intégré.</div>
+        <div class="reading-card-footer"><span style="font-size:9px; letter-spacing:0.1em;">BELGIQUE · SANTÉ PUBLIQUE</span><span class="reading-arrow" aria-hidden="true">↗</span></div>
+      </a>
+    </div>
+
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:24px;">
+      <h3 style="margin:0; font-size:10.5px; font-weight:500; letter-spacing:0.17em; color:#d7bd78;">SOURCES SCIENTIFIQUES ET DONNÉES</h3>
+      <span style="font-size:9px; letter-spacing:0.1em; color:#4f5660;">3 SOURCES</span>
+    </div>
+
+    <div class="science-grid">
+      <a class="science-card" href="https://meteofrance.com/le-changement-climatique/quel-climat-futur/changement-climatique-quel-impact-sur-les-vagues-de" target="_blank" rel="noopener noreferrer">
+        <div style="font-size:9px; letter-spacing:0.12em; color:#bda465;">MÉTÉO-FRANCE · 07.2026</div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:600; line-height:1.3; color:#f0eadb;">Quel impact du changement climatique sur les vagues de chaleur ?</div>
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-top:auto; font-size:9px; color:#6d6657;"><span>FRÉQUENCE · DURÉE · INTENSITÉ</span><span class="reading-arrow" aria-hidden="true">↗</span></div>
+      </a>
+      <a class="science-card" href="https://www.santepubliquefrance.fr/climat/fortes-chaleurs-canicule/bulletin-national/chaleur-et-sante-bilan-de-lete-2025" target="_blank" rel="noopener noreferrer">
+        <div style="font-size:9px; letter-spacing:0.12em; color:#bda465;">SANTÉ PUBLIQUE FRANCE</div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:600; line-height:1.3; color:#f0eadb;">Chaleur et santé : bilan de l’été 2025</div>
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-top:auto; font-size:9px; color:#6d6657;"><span>SOINS · MORTALITÉ</span><span class="reading-arrow" aria-hidden="true">↗</span></div>
+      </a>
+      <a class="science-card" href="https://academie.ademe.fr/parcours-thematiques/urbanisme-territoires-et-sols/rafraichissement-urbain-et-nature-en-ville/pst143" target="_blank" rel="noopener noreferrer">
+        <div style="font-size:9px; letter-spacing:0.12em; color:#bda465;">ADEME</div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:600; line-height:1.3; color:#f0eadb;">Rafraîchissement urbain et nature en ville</div>
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-top:auto; font-size:9px; color:#6d6657;"><span>SOLUTIONS · ADAPTATION</span><span class="reading-arrow" aria-hidden="true">↗</span></div>
+      </a>
+    </div>
+
+    <div class="topic-panels">
+      <section class="topic-panel topic-panel--urban" aria-labelledby="urbanResourcesTitle">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <h3 id="urbanResourcesTitle" style="margin:0; font-size:10.5px; font-weight:500; letter-spacing:0.16em; color:#72cba2;">🏙 URBANISME &amp; ADAPTATION</h3>
+          <span style="font-size:9px; letter-spacing:0.1em; color:#4f6159;">4 SOURCES</span>
+        </div>
+        <div class="topic-links">
+          <a class="topic-link" href="https://www.cerema.fr/fr/actualites/instantane-2026-vision-integree-adaptation-aux-chaleurs" target="_blank" rel="noopener noreferrer">
+            <div><div style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#dff7eb;">Cerema</div><div style="margin-top:6px; font-size:10.5px; line-height:1.45; color:#71827b;">Approche intégrée des chaleurs estivales dans l’espace public.</div></div>
+            <span class="reading-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="topic-link" href="https://www.adaptation-changement-climatique.gouv.fr/" target="_blank" rel="noopener noreferrer">
+            <div><div style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#dff7eb;">Centre Adaptation Climat</div><div style="margin-top:6px; font-size:10.5px; line-height:1.45; color:#71827b;">Villes, écoles, bâtiments et solutions fondées sur la nature.</div></div>
+            <span class="reading-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="topic-link" href="https://agirpourlatransition.ademe.fr/collectivites/conseils/adaptation/rafraichissement-urbain" target="_blank" rel="noopener noreferrer">
+            <div><div style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#dff7eb;">ADEME</div><div style="margin-top:6px; font-size:10.5px; line-height:1.45; color:#71827b;">Rafraîchissement urbain, végétalisation et résilience territoriale.</div></div>
+            <span class="reading-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="topic-link" href="https://environnement.brussels/citoyen/documentation-et-outils/etat-des-lieux-de-lenvironnement/ilot-de-chaleur" target="_blank" rel="noopener noreferrer">
+            <div><div style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#dff7eb;">Bruxelles Environnement</div><div style="margin-top:6px; font-size:10.5px; line-height:1.45; color:#71827b;">Cartographie et analyse de l’îlot de chaleur bruxellois.</div></div>
+            <span class="reading-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="topic-panel topic-panel--health" aria-labelledby="healthResourcesTitle">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <h3 id="healthResourcesTitle" style="margin:0; font-size:10.5px; font-weight:500; letter-spacing:0.16em; color:#ef93a7;">🩺 SANTÉ</h3>
+          <span style="font-size:9px; letter-spacing:0.1em; color:#674852;">3 SOURCES</span>
+        </div>
+        <div class="topic-links">
+          <a class="topic-link" href="https://sante.gouv.fr/sante-et-environnement/risques-climatiques/article/les-vagues-de-chaleur-et-leurs-effets-sur-la-sante" target="_blank" rel="noopener noreferrer">
+            <div><div style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#fde8ed;">Ministère français de la Santé</div><div style="margin-top:5px; font-size:10px; color:#8f6f77;">Effets sanitaires et bons réflexes.</div></div>
+            <span class="reading-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="topic-link" href="https://www.sciensano.be/fr/projets/belgian-mortality-monitoring" target="_blank" rel="noopener noreferrer">
+            <div><div style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#fde8ed;">Sciensano · Be-MOMO</div><div style="margin-top:5px; font-size:10px; color:#8f6f77;">Surveillance belge de la mortalité.</div></div>
+            <span class="reading-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="topic-link" href="https://ccf.brussels/information-ozone-et-vague-de-chaleur-un-plan-pour-anticiper-et-reagir-rapidement/" target="_blank" rel="noopener noreferrer">
+            <div><div style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#fde8ed;">COCOF · Plan fortes chaleurs</div><div style="margin-top:5px; font-size:10px; color:#8f6f77;">Prévention et réaction à Bruxelles.</div></div>
+            <span class="reading-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
+    </div>
+
+    <div style="margin-top:22px; padding-top:18px; border-top:1px solid #1d2128;">
+      <div style="font-size:10px; letter-spacing:0.16em; color:#7f8793;">MÉDIAS FRANCOPHONES À SUIVRE</div>
+      <div class="media-chips" aria-label="Médias francophones recommandés">
+        <a class="media-chip" href="https://www.lemonde.fr/planete/" target="_blank" rel="noopener noreferrer">Le Monde · Planète</a>
+        <a class="media-chip" href="https://www.rtbf.be/archive/environnement" target="_blank" rel="noopener noreferrer">RTBF Environnement</a>
+        <a class="media-chip" href="https://www.franceinfo.fr/meteo/climat/" target="_blank" rel="noopener noreferrer">Franceinfo · Climat</a>
+        <a class="media-chip" href="https://www.rts.ch/info/sciences-tech/environnement/" target="_blank" rel="noopener noreferrer">RTS · Environnement</a>
+        <a class="media-chip" href="https://ici.radio-canada.ca/environnement" target="_blank" rel="noopener noreferrer">Radio-Canada</a>
+        <a class="media-chip" href="https://reporterre.net/" target="_blank" rel="noopener noreferrer">Reporterre</a>
+        <a class="media-chip" href="https://vert.eco/" target="_blank" rel="noopener noreferrer">Vert</a>
+        <a class="media-chip" href="https://bonpote.com/" target="_blank" rel="noopener noreferrer">Bon Pote</a>
+        <a class="media-chip" href="https://www.novethic.fr/environnement" target="_blank" rel="noopener noreferrer">Novethic</a>
+        <a class="media-chip" href="https://www.actu-environnement.com/" target="_blank" rel="noopener noreferrer">Actu-Environnement</a>
+        <a class="media-chip" href="https://meteofrance.com/le-changement-climatique" target="_blank" rel="noopener noreferrer">Météo-France</a>
+        <a class="media-chip" href="https://www.meteo.be/fr/climat/changement-climatique-en-belgique/les-rapports-climatiques" target="_blank" rel="noopener noreferrer">IRM belge</a>
+        <a class="media-chip" href="https://www.meteosuisse.admin.ch/climat/changement-climatique.html" target="_blank" rel="noopener noreferrer">MétéoSuisse</a>
+        <a class="media-chip" href="https://www.santepubliquefrance.fr/fortes-chaleurs-canicule/les-enjeux-de-sante" target="_blank" rel="noopener noreferrer">Santé publique France</a>
+        <a class="media-chip" href="https://www.ademe.fr/les-defis-de-la-transition/changement-climatique/" target="_blank" rel="noopener noreferrer">ADEME</a>
+        <a class="media-chip" href="https://www.hautconseilclimat.fr/publications/" target="_blank" rel="noopener noreferrer">Haut Conseil pour le climat</a>
+      </div>
+    </div>
+  </section>
 </div>
 
 <div id="heatTimelineModal" class="heat-modal-backdrop" aria-hidden="true">
