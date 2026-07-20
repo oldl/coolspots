@@ -304,6 +304,111 @@
     opacity: 1;
     transform: translateX(0);
   }
+  .climate-footer {
+    position: relative;
+    margin-top: 28px;
+    overflow: hidden;
+    border: 1px solid #20252d;
+    border-radius: 12px;
+    background:
+      radial-gradient(420px 170px at 0% 100%, rgba(54, 214, 200, 0.11), transparent 72%),
+      radial-gradient(440px 170px at 100% 0%, rgba(255, 106, 43, 0.10), transparent 72%),
+      #0d0f13;
+  }
+  .climate-footer::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 2px;
+    background: linear-gradient(90deg, #36d6c8, #ffe14d 52%, #ff6a2b);
+    opacity: 0.86;
+  }
+  .climate-footer-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) auto;
+    gap: 30px;
+    align-items: center;
+    padding: 24px;
+  }
+  .climate-footer-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .climate-footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 34px;
+    padding: 8px 12px;
+    border: 1px solid #29313a;
+    border-radius: 999px;
+    background: rgba(13, 16, 20, 0.82);
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #a7b0bb;
+    text-decoration: none;
+    transition: transform 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+  }
+  .climate-footer-link:hover,
+  .climate-footer-link:focus-visible {
+    transform: translateY(-2px);
+    color: #f4f7fa;
+    outline: none;
+  }
+  .climate-footer-link--main {
+    border-color: #24534f;
+    color: #83ddd4;
+  }
+  .climate-footer-link--main:hover,
+  .climate-footer-link--main:focus-visible {
+    border-color: #36d6c8;
+    box-shadow: 0 10px 26px rgba(54, 214, 200, 0.14);
+  }
+  .climate-footer-link--sun {
+    border-color: #453821;
+    color: #d7b569;
+  }
+  .climate-footer-link--sun:hover,
+  .climate-footer-link--sun:focus-visible {
+    border-color: #ffce4d;
+    box-shadow: 0 10px 26px rgba(255, 206, 77, 0.12);
+  }
+  .climate-footer-link--tree {
+    border-color: #264131;
+    color: #76c99a;
+  }
+  .climate-footer-link--tree:hover,
+  .climate-footer-link--tree:focus-visible {
+    border-color: #36d68a;
+    box-shadow: 0 10px 26px rgba(54, 214, 138, 0.12);
+  }
+  .climate-footer-signature {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 11px 24px;
+    border-top: 1px solid #1c2128;
+    background: rgba(5, 7, 9, 0.36);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: #4f5660;
+  }
+  .climate-footer-author {
+    color: #77808b;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+  .climate-footer-author:hover,
+  .climate-footer-author:focus-visible {
+    color: #ff76b5;
+    outline: none;
+  }
   #cs-loader {
     min-height: 520px;
     border-radius: 10px;
@@ -380,6 +485,11 @@
     .reading-feature { grid-template-columns: 1fr !important; padding: 19px !important; gap: 16px !important; }
     .reading-grid, .science-grid, .topic-panels, .topic-links { grid-template-columns: 1fr !important; }
     .reading-card { min-height: 0 !important; }
+    .climate-footer { margin-top: 20px !important; }
+    .climate-footer-inner { grid-template-columns: 1fr !important; gap: 20px !important; padding: 21px 18px !important; text-align:center !important; }
+    .climate-footer-actions { justify-content:center !important; }
+    .climate-footer-link { justify-content:center !important; }
+    .climate-footer-signature { flex-direction:column !important; gap:7px !important; padding:12px 18px !important; text-align:center !important; }
     .heat-modal-backdrop { padding: 10px !important; }
     .heat-modal-panel { max-height: 94vh !important; border-radius: 14px !important; }
     #categoryFilter { flex-wrap: wrap !important; }
@@ -855,6 +965,37 @@
       </div>
     </div>
   </section>
+
+  <footer class="climate-footer" aria-label="Écosystème ClimateOS Brussels">
+    <div class="climate-footer-inner">
+      <div>
+        <div style="display:flex; align-items:center; gap:9px; font-size:9.5px; font-weight:600; letter-spacing:0.16em; color:#62cfc5;">
+          <span style="width:7px; height:7px; border-radius:50%; background:#36d6c8; box-shadow:0 0 10px rgba(54,214,200,.75); flex:none;"></span>
+          A CLIMATEOS.BRUSSELS PROJECT
+        </div>
+        <div style="max-width:630px; margin-top:10px; font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:600; line-height:1.25; color:#eef2f5;">Un écosystème d’outils ouverts pour mieux comprendre et vivre le climat à Bruxelles.</div>
+      </div>
+
+      <nav class="climate-footer-actions" aria-label="Projets ClimateOS">
+        <a class="climate-footer-link climate-footer-link--main" href="https://climateos.brussels" target="_blank" rel="noopener noreferrer">
+          <span style="width:7px; height:7px; border-radius:50%; background:#36d6c8; box-shadow:0 0 7px rgba(54,214,200,.7);"></span>
+          CLIMATEOS.BRUSSELS ↗
+        </a>
+        <a class="climate-footer-link climate-footer-link--sun" href="https://sunspots.be" target="_blank" rel="noopener noreferrer">
+          <span style="width:7px; height:7px; border-radius:50%; background:#ffce4d; box-shadow:0 0 7px rgba(255,206,77,.7);"></span>
+          SUNSPOTS.BE ↗
+        </a>
+        <a class="climate-footer-link climate-footer-link--tree" href="https://treespots.be" target="_blank" rel="noopener noreferrer">
+          <span style="width:7px; height:7px; border-radius:50%; background:#36d68a; box-shadow:0 0 7px rgba(54,214,138,.7);"></span>
+          TREESPOTS.BE ↗
+        </a>
+      </nav>
+    </div>
+    <div class="climate-footer-signature">
+      <span>COOLSPOTS · BRUXELLES · 2026</span>
+      <a class="climate-footer-author" href="https://www.linkedin.com/in/olivier-de-locht/" target="_blank" rel="noopener noreferrer">MADE WITH <span style="color:#ff5ea8;">🩷</span> BY OL_DL ↗</a>
+    </div>
+  </footer>
 </div>
 
 <div id="heatTimelineModal" class="heat-modal-backdrop" aria-hidden="true">
